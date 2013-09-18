@@ -1,0 +1,66 @@
+//
+// Prefix header for all source files of the 'Test' target in the 'Test' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#import "RCTool.h"
+#import "cocos2d.h"
+#endif
+
+#define LOG_HERE CCLOG(@"%@: %@",NSStringFromSelector(_cmd),self)
+#define WIN_SIZE [[CCDirector sharedDirector] winSize]
+#define DIRECTOR [CCDirector sharedDirector]
+#define PTM_RATIO 32.0
+
+typedef enum
+{
+    ST_UNKNOWN = 0,
+    ST_HOME,
+    ST_BEATMOLE,
+}SCENE_TYPE;
+
+typedef enum{
+    SHT_UNKNOWN = -1,
+    SHT_MESSAGE,
+    SHT_EMAIL,
+    SHT_QQ,
+    SHT_SINA
+}SHARE_TYPE;
+
+typedef enum{
+    T_UNKNOWN = 0,
+    T_HOMEMENU_ACHIEVEMENT,
+    T_HOMEMENU_LEADERBOARD,
+    T_HOMEMENU_START,
+    T_HOMEMENU_ABOUT,
+    T_HOMEMENU_SETTING,
+}TAG;
+
+typedef enum{
+    SLT_UNKNOWN = 0,
+    SLT_BK_VOLUME,
+    SLT_EFFECT_VOLUME,
+}SLIDER_TYPE;
+
+//导航条高度
+#define NAVIGATION_BAR_HEIGHT 32.0
+
+//状态栏高度
+#define STATUS_BAR_HEIGHT 20.0
+
+//系统版本
+#define SYSTEM_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
+//声音文件
+#define MUSIC_BG @"bg.mp3"
+#define MUSIC_LAND @"land.mp3"
+#define MUSIC_CLICK @""
