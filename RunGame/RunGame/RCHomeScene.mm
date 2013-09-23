@@ -38,14 +38,13 @@ static RCHomeScene* sharedInstance = nil;
         sharedInstance = self;
         //self.isTouchEnabled = YES;
         CGSize winSize = WIN_SIZE;
-        
         [RCTool preloadEffectSound:MUSIC_CLICK];
         
+        [RCTool addCacheFrame:@"home_scene_images.plist"];
+        
         //设置背景
-        NSString* bgImageName = @"home_bg.png";
-//        if([RCTool isIphone5])
-//            bgImageName = @"home_bg-568h.png";
-        CCSprite* bgSprite = [CCSprite spriteWithFile:bgImageName];
+        CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"home_bg.png"];
+        CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
         bgSprite.position = ccp(winSize.width/2.0, winSize.height/2.0);
         [self addChild:bgSprite];
         
@@ -85,6 +84,8 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)dealloc
 {
+    [RCTool removeCacheFrame:@"home_scene_images.plist"];
+    
     sharedInstance = nil;
     [super dealloc];
 }

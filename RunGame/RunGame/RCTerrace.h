@@ -7,14 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PhysicsSprite.h"
+#import "RCBox2dSprite.h"
 
-@interface RCTerrace : PhysicsSprite {
+@interface RCTerrace : RCBox2dSprite {
     
 }
 
 + (id)terrace;
-- (void)setPos:(CGPoint)pos;
 - (void)move:(CGPoint)offset;
 - (void)beHit;
 

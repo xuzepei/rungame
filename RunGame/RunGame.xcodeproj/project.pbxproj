@@ -13,6 +13,11 @@
 		0940B18C17E5B9D70079C108 /* game_scene_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 0940B18A17E5B9D70079C108 /* game_scene_images.png */; };
 		0940B18F17E5E27C0079C108 /* RCGameSceneParallaxBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 0940B18E17E5E27C0079C108 /* RCGameSceneParallaxBackground.m */; };
 		09651ECB17E9768400EC4125 /* land.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09651ECA17E9768400EC4125 /* land.mp3 */; };
+		0967002017EEF4D800C21FBD /* RCSpeedUpEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0967001F17EEF4D800C21FBD /* RCSpeedUpEntity.mm */; };
+		0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6017EACC8D00414B71 /* home_scene_images.plist */; };
+		0967BA6317EACC8D00414B71 /* home_scene_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6117EACC8D00414B71 /* home_scene_images.png */; };
+		0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */; };
+		0980CB7617EFE7AF0001AD16 /* RCSPUpEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0980CB7517EFE7AF0001AD16 /* RCSPUpEntity.mm */; };
 		0996F56017E84C5B00F21122 /* bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0996F55F17E84C5B00F21122 /* bg.mp3 */; };
 		0996F56317E85A0200F21122 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0996F56217E85A0200F21122 /* MyContactListener.mm */; };
 		09A4345117E6A797002483C8 /* RCPanda.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09A4345017E6A797002483C8 /* RCPanda.mm */; };
@@ -186,7 +191,7 @@
 		09FAE59F17E2BCB900E46F76 /* HelloWorldLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE59E17E2BCB900E46F76 /* HelloWorldLayer.mm */; };
 		09FAE5A217E2BCB900E46F76 /* IntroLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5A117E2BCB900E46F76 /* IntroLayer.mm */; };
 		09FAE5A517E2BCB900E46F76 /* GLES-Render.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5A417E2BCB900E46F76 /* GLES-Render.mm */; };
-		09FAE5A817E2BCB900E46F76 /* PhysicsSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5A717E2BCB900E46F76 /* PhysicsSprite.mm */; };
+		09FAE5A817E2BCB900E46F76 /* RCBox2dSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5A717E2BCB900E46F76 /* RCBox2dSprite.mm */; };
 		09FAE5AA17E2BCB900E46F76 /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE5A917E2BCB900E46F76 /* blocks.png */; };
 		09FAE5B217E2BDC200E46F76 /* RCTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5B117E2BDC200E46F76 /* RCTool.m */; };
 		09FAE5B817E2E94E00E46F76 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B317E2E94E00E46F76 /* CFNetwork.framework */; };
@@ -288,6 +293,14 @@
 		0940B18D17E5E27C0079C108 /* RCGameSceneParallaxBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCGameSceneParallaxBackground.h; sourceTree = "<group>"; };
 		0940B18E17E5E27C0079C108 /* RCGameSceneParallaxBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCGameSceneParallaxBackground.m; sourceTree = "<group>"; };
 		09651ECA17E9768400EC4125 /* land.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = land.mp3; sourceTree = "<group>"; };
+		0967001E17EEF4D800C21FBD /* RCSpeedUpEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSpeedUpEntity.h; sourceTree = "<group>"; };
+		0967001F17EEF4D800C21FBD /* RCSpeedUpEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCSpeedUpEntity.mm; sourceTree = "<group>"; };
+		0967BA6017EACC8D00414B71 /* home_scene_images.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = home_scene_images.plist; path = Resources/images/home_scene_images.plist; sourceTree = "<group>"; };
+		0967BA6117EACC8D00414B71 /* home_scene_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home_scene_images.png; path = Resources/images/home_scene_images.png; sourceTree = "<group>"; };
+		0967BA6717EB4A7100414B71 /* RCBox2dMoveTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBox2dMoveTo.h; sourceTree = "<group>"; };
+		0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCBox2dMoveTo.mm; sourceTree = "<group>"; };
+		0980CB7417EFE7AF0001AD16 /* RCSPUpEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCSPUpEntity.h; sourceTree = "<group>"; };
+		0980CB7517EFE7AF0001AD16 /* RCSPUpEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCSPUpEntity.mm; sourceTree = "<group>"; };
 		0996F55F17E84C5B00F21122 /* bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bg.mp3; sourceTree = "<group>"; };
 		0996F56117E85A0200F21122 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
 		0996F56217E85A0200F21122 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
@@ -649,8 +662,8 @@
 		09FAE5A117E2BCB900E46F76 /* IntroLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IntroLayer.mm; sourceTree = "<group>"; };
 		09FAE5A317E2BCB900E46F76 /* GLES-Render.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GLES-Render.h"; sourceTree = "<group>"; };
 		09FAE5A417E2BCB900E46F76 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "GLES-Render.mm"; sourceTree = "<group>"; };
-		09FAE5A617E2BCB900E46F76 /* PhysicsSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhysicsSprite.h; sourceTree = "<group>"; };
-		09FAE5A717E2BCB900E46F76 /* PhysicsSprite.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PhysicsSprite.mm; sourceTree = "<group>"; };
+		09FAE5A617E2BCB900E46F76 /* RCBox2dSprite.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCBox2dSprite.h; sourceTree = "<group>"; };
+		09FAE5A717E2BCB900E46F76 /* RCBox2dSprite.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RCBox2dSprite.mm; sourceTree = "<group>"; };
 		09FAE5A917E2BCB900E46F76 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		09FAE5B017E2BDC200E46F76 /* RCTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTool.h; sourceTree = "<group>"; };
 		09FAE5B117E2BDC200E46F76 /* RCTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTool.m; sourceTree = "<group>"; };
@@ -925,8 +938,10 @@
 				09FAE5A117E2BCB900E46F76 /* IntroLayer.mm */,
 				09FAE5A317E2BCB900E46F76 /* GLES-Render.h */,
 				09FAE5A417E2BCB900E46F76 /* GLES-Render.mm */,
-				09FAE5A617E2BCB900E46F76 /* PhysicsSprite.h */,
-				09FAE5A717E2BCB900E46F76 /* PhysicsSprite.mm */,
+				0967BA6717EB4A7100414B71 /* RCBox2dMoveTo.h */,
+				0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */,
+				09FAE5A617E2BCB900E46F76 /* RCBox2dSprite.h */,
+				09FAE5A717E2BCB900E46F76 /* RCBox2dSprite.mm */,
 				09FAE39017E2BCB500E46F76 /* Resources */,
 				09FAE3AA17E2BCB500E46F76 /* libs */,
 				09FAE59617E2BCB900E46F76 /* Supporting Files */,
@@ -937,6 +952,8 @@
 		09FAE39017E2BCB500E46F76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0967BA6017EACC8D00414B71 /* home_scene_images.plist */,
+				0967BA6117EACC8D00414B71 /* home_scene_images.png */,
 				0940B18917E5B9D70079C108 /* game_scene_images.plist */,
 				0940B18A17E5B9D70079C108 /* game_scene_images.png */,
 				0940B18717E597700079C108 /* back_button.png */,
@@ -1916,6 +1933,10 @@
 				09A4345017E6A797002483C8 /* RCPanda.mm */,
 				0935C66F17E6F37A0008C067 /* RCTerrace.h */,
 				0935C67017E6F37A0008C067 /* RCTerrace.mm */,
+				0967001E17EEF4D800C21FBD /* RCSpeedUpEntity.h */,
+				0967001F17EEF4D800C21FBD /* RCSpeedUpEntity.mm */,
+				0980CB7417EFE7AF0001AD16 /* RCSPUpEntity.h */,
+				0980CB7517EFE7AF0001AD16 /* RCSPUpEntity.mm */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -1995,6 +2016,7 @@
 				09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */,
 				09FAE39C17E2BCB500E46F76 /* Icon-72.png in Resources */,
 				09FAE39E17E2BCB500E46F76 /* Icon-Small-50.png in Resources */,
+				0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */,
 				09FAE3A017E2BCB500E46F76 /* Icon-Small.png in Resources */,
 				09FAE3A217E2BCB500E46F76 /* Icon-Small@2x.png in Resources */,
 				09FAE3A417E2BCB500E46F76 /* Icon.png in Resources */,
@@ -2008,6 +2030,7 @@
 				09FAE6E317E308C000E46F76 /* Default-568h@2x.png in Resources */,
 				09FAE6E917E30A7500E46F76 /* home_bg.png in Resources */,
 				09FAE6EB17E30C7D00E46F76 /* start_button.png in Resources */,
+				0967BA6317EACC8D00414B71 /* home_scene_images.png in Resources */,
 				0940B18817E597700079C108 /* back_button.png in Resources */,
 				0940B18B17E5B9D70079C108 /* game_scene_images.plist in Resources */,
 				0940B18C17E5B9D70079C108 /* game_scene_images.png in Resources */,
@@ -2038,6 +2061,7 @@
 				09FAE5D417E2EC3D00E46F76 /* RCAchievement.m in Sources */,
 				09FAE5D517E2EC3D00E46F76 /* RCAchievementViewController.m in Sources */,
 				09FAE5D617E2EC3D00E46F76 /* RCAchievementCell.m in Sources */,
+				0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */,
 				09FAE5D717E2EC3D00E46F76 /* RCAchievementCellContentView.m in Sources */,
 				09FAE3AE17E2BCB500E46F76 /* CCAction.m in Sources */,
 				09FAE3B117E2BCB500E46F76 /* CCActionCamera.m in Sources */,
@@ -2068,6 +2092,7 @@
 				09FAE3FD17E2BCB500E46F76 /* CCLabelBMFont.m in Sources */,
 				09FAE40017E2BCB500E46F76 /* CCLabelTTF.m in Sources */,
 				09FAE40317E2BCB500E46F76 /* CCLayer.m in Sources */,
+				0980CB7617EFE7AF0001AD16 /* RCSPUpEntity.mm in Sources */,
 				09FAE40717E2BCB600E46F76 /* CCMenu.m in Sources */,
 				09FAE40A17E2BCB600E46F76 /* CCMenuItem.m in Sources */,
 				09FAE40D17E2BCB600E46F76 /* CCMotionStreak.m in Sources */,
@@ -2190,7 +2215,7 @@
 				09FAE59F17E2BCB900E46F76 /* HelloWorldLayer.mm in Sources */,
 				09FAE5A217E2BCB900E46F76 /* IntroLayer.mm in Sources */,
 				09FAE5A517E2BCB900E46F76 /* GLES-Render.mm in Sources */,
-				09FAE5A817E2BCB900E46F76 /* PhysicsSprite.mm in Sources */,
+				09FAE5A817E2BCB900E46F76 /* RCBox2dSprite.mm in Sources */,
 				09FAE5B217E2BDC200E46F76 /* RCTool.m in Sources */,
 				09FAE69317E2EE6400E46F76 /* ASIAuthenticationDialog.m in Sources */,
 				09FAE69417E2EE6400E46F76 /* ASIDataCompressor.m in Sources */,
@@ -2218,6 +2243,7 @@
 				09FAE6AB17E2EE6400E46F76 /* CURenrenShareClient.m in Sources */,
 				09FAE6AC17E2EE6400E46F76 /* CUSinaShareClient.m in Sources */,
 				09FAE6AD17E2EE6400E46F76 /* CUTencentShareClient.m in Sources */,
+				0967002017EEF4D800C21FBD /* RCSpeedUpEntity.mm in Sources */,
 				09FAE6AE17E2EE6400E46F76 /* GTMBase64.m in Sources */,
 				09FAE6AF17E2EE6400E46F76 /* GCDMulticastDelegate.m in Sources */,
 				09FAE6B017E2EE6400E46F76 /* Renren.m in Sources */,
@@ -2309,12 +2335,13 @@
 				GCC_PREFIX_HEADER = RunGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"RunGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = RunGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"RunGame/libs\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2329,12 +2356,13 @@
 				GCC_PREFIX_HEADER = RunGame/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"RunGame/libs/kazmath/include\"";
 				INFOPLIST_FILE = RunGame/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"RunGame/libs\"";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

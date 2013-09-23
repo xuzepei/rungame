@@ -10,6 +10,8 @@
 #import "RCTool.h"
 #import "RCHomeScene.h"
 #import "RCGameSceneParallaxBackground.h"
+#import "RCSpeedUpEntity.h"
+#import "RCSPUpEntity.h"
 
 #define SCROLL_SPEED 8.0f
 #define TERRACE_NUM 6
@@ -38,13 +40,14 @@ static RCGameScene* sharedInstance = nil;
         sharedInstance = self;
         self.isTouchEnabled = YES;
         self.terraceSpeed = SCROLL_SPEED;
+        self.entitySpeed = SCROLL_SPEED;
         _terraceArray = [[NSMutableArray alloc] init];
+        _entityArray = [[NSMutableArray alloc] init];
         
-        CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
-		[frameCache addSpriteFramesWithFile:@"game_scene_images.plist"];
+        [RCTool addCacheFrame:@"game_scene_images.plist"];
         
-        RCGameSceneParallaxBackground* parallaxBg = [RCGameSceneParallaxBackground node];
-        [self addChild:parallaxBg z:1];
+        self.parallaxBg = [RCGameSceneParallaxBackground node];
+        [self addChild:self.parallaxBg z:1];
         
         CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"back_button.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedBackButton:)];
         CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
@@ -60,6 +63,8 @@ static RCGameScene* sharedInstance = nil;
         
         [self schedule:@selector(tick:)];
         
+        [self schedule:@selector(addEntityForTimes:) interval:0.5f];
+        
         [RCTool playBgSound:MUSIC_BG];
         [RCTool preloadEffectSound:MUSIC_LAND];
         
@@ -71,6 +76,8 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)dealloc
 {
+    [RCTool removeCacheFrame:@"game_scene_images.plist"];
+    
     if(_debugDraw)
     {
         delete _debugDraw;
@@ -98,12 +105,13 @@ static RCGameScene* sharedInstance = nil;
     if(_groundBody)
         _groundBody = NULL;
     
-    delete _groundFixture;
     _groundFixture = NULL;
     
     self.terraceArray = nil;
     self.panda = nil;
+    self.parallaxBg = nil;
     sharedInstance = nil;
+    
     [super dealloc];
 }
 
@@ -165,12 +173,52 @@ static RCGameScene* sharedInstance = nil;
     
     [tempArray release];
     
+    //移动道具
+    for(CCSprite* entity in _entityArray)
+    {
+        if(entity.position.x <  -1*entity.contentSize.width)
+        {
+            [entity setVisible:NO];
+            continue;
+        }
+        
+        entity.position = ccp(entity.position.x - _entitySpeed,entity.position.y);
+    }
+    
+    for(CCSprite* entity in _entityArray)
+    {
+        if(NO == [entity visible])
+            [entity removeFromParentAndCleanup:YES];
+    }
+    
     //碰撞监测
     if([self.panda needCheckCollision])
     {
-        CCLOG(@"isFlying:%d",[self.panda isFlying]);
+        //CCLOG(@"isFlying:%d",[self.panda isFlying]);
         [self checkCollision];
     }
+    
+    //调整镜头
+    CGFloat pandaHeight = self.panda.contentSize.height;
+    CGFloat pandaY = [self.panda getBody]->GetPosition().y * PTM_RATIO;
+    CGSize winSize = WIN_SIZE;
+    
+    CGFloat cY = pandaY - pandaHeight - winSize.height/2.0f;
+    if(cY < 0)
+    {
+        cY = 0;
+    }
+    
+    // do some parallax scrolling
+//    [objectLayer setPosition:ccp(0,-cY)];
+//    [floorBackground setPosition:ccp(0,-cY*0.8)]; // move floor background slower
+    [self.parallaxBg setPosition:ccp(self.parallaxBg.position.x,-cY)];      // move main background even slower
+    
+//    for(RCTerrace* terrace in self.terraceArray)
+//    {
+//        //CGFloat cY = pandaY - terrace.contentSize.height - terrace.position.y;
+//        [terrace setPos:CGPointMake(terrace.position.x,200)];
+//    }
 
 }
 
@@ -260,8 +308,8 @@ static RCGameScene* sharedInstance = nil;
     _groundFixture = _groundBody->CreateFixture(&groundEdge,0);
     
     //bottom edge
-    groundEdge.Set(b2Vec2(0,0), b2Vec2(winSize.width/PTM_RATIO, 0));
-    _groundBody->CreateFixture(&groundEdge,0);
+    groundEdge.Set(b2Vec2(0,0), b2Vec2(winSize.width/PTM_RATIO, -winSize.height));
+    _groundBody->CreateFixture(&groundEdge,-winSize.height);
     
     //left edge
     groundEdge.Set(b2Vec2(0,0), b2Vec2(0, 0/PTM_RATIO));
@@ -313,19 +361,25 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)initTerraces
 {
-    CGFloat offset_x = 100;
+    CGFloat offset_x = 20;
+    CGFloat offset_y = 80;
+    
     for(int i = 0; i < TERRACE_NUM; i++)
     {
         RCTerrace* terrace = [RCTerrace terrace];
-        terrace.position = ccp(offset_x,100);
-        [self addChild:terrace z:10];
+        
+        CGFloat random = arc4random()%60;
+        CGFloat random2 = MAX(20.0 + terrace.contentSize.width/2.0,arc4random()%100);
+        offset_x += random2;
+        terrace.position = ccp(offset_x,offset_y + random);
+        
+        [self.parallaxBg addChild:terrace z:10];
         
         //创建球的body
         b2BodyDef bodyDef;
         bodyDef.type = b2_dynamicBody;
         bodyDef.position.Set(terrace.position.x/PTM_RATIO, terrace.position.y/PTM_RATIO);
         b2Body* body = _world->CreateBody(&bodyDef);
-        //body->SetAwake(false);//设置为未唤醒
         
         //定义形状
         b2PolygonShape box;
@@ -351,11 +405,80 @@ static RCGameScene* sharedInstance = nil;
                             body->GetWorldCenter(), worldAxis);
         _world->CreateJoint(&jointDef);
         
-        offset_x += terrace.contentSize.width + TERRACE_INTERVAL;
+        offset_x += terrace.contentSize.width/2.0;
         
         [_terraceArray addObject:terrace];
     }
 
+}
+
+#pragma mark - Add Entity
+
+- (void)addEntityByType:(int)type
+{
+    CGSize winSize = WIN_SIZE;
+    if(ET_SPEEDUP == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = 0.0;
+        CGFloat offset_y = arc4random()%50 + 50;
+        
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCSpeedUpEntity* entity = [RCSpeedUpEntity entity:ET_SPEEDUP];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_SPUP == type)
+    {
+        
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCSPUpEntity* entity = [RCSPUpEntity entity:ET_SPUP];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+}
+
+- (void)addEntityForTimes:(ccTime)delta
+{
+    int rand = arc4random()%(ET_SPUP + 1);
+    [self addEntityByType:rand];
 }
 
 #pragma mark - Action
@@ -368,7 +491,7 @@ static RCGameScene* sharedInstance = nil;
         {
             CCLOG(@"land");
             [RCTool playEffectSound:MUSIC_LAND];
-            //[terrace beHit];
+            [terrace beHit];
         }
     }
     

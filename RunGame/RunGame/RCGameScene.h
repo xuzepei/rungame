@@ -13,6 +13,7 @@
 #import "RCTerrace.h"
 #import "MyContactListener.h"
 
+@class RCGameSceneParallaxBackground;
 @interface RCGameScene : CCLayer {
     
     GLESDebugDraw* _debugDraw;
@@ -27,7 +28,10 @@
 
 @property(nonatomic,retain)RCPanda* panda;
 @property(nonatomic,retain)NSMutableArray* terraceArray;
+@property(nonatomic,retain)NSMutableArray* entityArray;
 @property(assign)CGFloat terraceSpeed;
+@property(assign)CGFloat entitySpeed;
+@property(nonatomic,retain)RCGameSceneParallaxBackground* parallaxBg;
 
 + (id)scene;
 + (RCGameScene*)sharedInstance;

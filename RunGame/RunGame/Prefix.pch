@@ -21,6 +21,7 @@
 #define DIRECTOR [CCDirector sharedDirector]
 #define PTM_RATIO 32.0
 
+//场景类型
 typedef enum
 {
     ST_UNKNOWN = 0,
@@ -28,6 +29,7 @@ typedef enum
     ST_BEATMOLE,
 }SCENE_TYPE;
 
+//分享类型
 typedef enum{
     SHT_UNKNOWN = -1,
     SHT_MESSAGE,
@@ -36,6 +38,7 @@ typedef enum{
     SHT_SINA
 }SHARE_TYPE;
 
+//标识
 typedef enum{
     T_UNKNOWN = 0,
     T_HOMEMENU_ACHIEVEMENT,
@@ -45,11 +48,20 @@ typedef enum{
     T_HOMEMENU_SETTING,
 }TAG;
 
+//滑块类型
 typedef enum{
     SLT_UNKNOWN = 0,
     SLT_BK_VOLUME,
     SLT_EFFECT_VOLUME,
 }SLIDER_TYPE;
+
+//道具类型
+typedef enum{
+    ET_UNKNOWN = -1,
+    ET_SPEEDUP, //加速
+    ET_SPUP, //加体力
+    //ET_SPDOWN, //减体力
+}ENTITY_TYPE;
 
 //导航条高度
 #define NAVIGATION_BAR_HEIGHT 32.0
@@ -64,3 +76,6 @@ typedef enum{
 #define MUSIC_BG @"bg.mp3"
 #define MUSIC_LAND @"land.mp3"
 #define MUSIC_CLICK @""
+
+//定义通知
+#define RUNNING_NOTIFICATION @"RUNNING_NOTIFICATION"

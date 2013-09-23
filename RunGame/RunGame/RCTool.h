@@ -26,6 +26,9 @@
 + (void)showAlert:(NSString*)aTitle message:(NSString*)message;
 + (CGFloat)systemVersion;
 
++ (void)addCacheFrame:(NSString*)plistFile;
++ (void)removeCacheFrame:(NSString*)plistFile;
+
 #pragma mark - Settings
 
 + (void)setBKVolume:(CGFloat)volume;

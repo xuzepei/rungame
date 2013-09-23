@@ -192,6 +192,24 @@
     return systemVersion;
 }
 
++ (void)addCacheFrame:(NSString*)plistFile
+{
+    if(0 == [plistFile length])
+        return;
+    
+    CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
+    [frameCache addSpriteFramesWithFile:plistFile];
+}
+
++ (void)removeCacheFrame:(NSString*)plistFile
+{
+    if(0 == [plistFile length])
+        return;
+    
+    CCSpriteFrameCache* frameCache = [CCSpriteFrameCache sharedSpriteFrameCache];
+    [frameCache removeSpriteFramesFromFile:plistFile];
+}
+
 #pragma mark - Settings
 
 + (void)setBKVolume:(CGFloat)volume
