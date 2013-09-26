@@ -12,10 +12,18 @@
 #import "RCGameSceneParallaxBackground.h"
 #import "RCSpeedUpEntity.h"
 #import "RCSPUpEntity.h"
+#import "RCSPDownEntity.h"
+#import "RCBulletEntity.h"
+#import "RCSnakeEntity.h"
+#import "RCBombEntity.h"
+#import "RCSpringEntity.h"
+#import "RCMoneyEntity.h"
+#import "RCPauseLayer.h"
 
-#define SCROLL_SPEED 8.0f
+
 #define TERRACE_NUM 6
 #define TERRACE_INTERVAL 200.0f
+#define TOP_HEIGHT_LIMIT (winSize.height - 40)
 
 static RCGameScene* sharedInstance = nil;
 @implementation RCGameScene
@@ -46,14 +54,10 @@ static RCGameScene* sharedInstance = nil;
         
         [RCTool addCacheFrame:@"game_scene_images.plist"];
         
-        self.parallaxBg = [RCGameSceneParallaxBackground node];
-        [self addChild:self.parallaxBg z:1];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameover:) name:GAMEOVER_NOTIFICATION object:nil];
         
-        CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"back_button.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedBackButton:)];
-        CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
-        menu.anchorPoint = ccp(0,0);
-        menu.position = ccp(20, 20);
-        [self addChild: menu z:50];
+        //创建背景
+        [self initParallaxBackground];
         
         [self initPhysics];
         
@@ -61,13 +65,18 @@ static RCGameScene* sharedInstance = nil;
         
         [self initTerraces];
         
+        //创建积分条
+        [self initScoreBar];
+        
+        //创建按钮
+        [self initButtons];
+        
         [self schedule:@selector(tick:)];
         
-        [self schedule:@selector(addEntityForTimes:) interval:0.5f];
+        [self schedule:@selector(addEntityForTimes:) interval:3.0f];
         
         [RCTool playBgSound:MUSIC_BG];
         [RCTool preloadEffectSound:MUSIC_LAND];
-        
 
     }
     
@@ -76,7 +85,8 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)dealloc
 {
-    [RCTool removeCacheFrame:@"game_scene_images.plist"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //[RCTool removeCacheFrame:@"game_scene_images.plist"];
     
     if(_debugDraw)
     {
@@ -110,21 +120,156 @@ static RCGameScene* sharedInstance = nil;
     self.terraceArray = nil;
     self.panda = nil;
     self.parallaxBg = nil;
+    self.scoreBar = nil;
+    self.actionMenu = nil;
     sharedInstance = nil;
     
     [super dealloc];
 }
 
-- (void)clickedBackButton:(id)sender
+#pragma mark - Parallax Background
+
+- (void)initParallaxBackground
 {
+    if(self.parallaxBg)
+        [self.parallaxBg removeFromParentAndCleanup:YES];
+    
+    self.parallaxBg = [RCGameSceneParallaxBackground node];
+    [self addChild:self.parallaxBg z:1];
+}
+
+#pragma mark - Score Bar
+
+- (void)initScoreBar
+{
+    if(self.scoreBar)
+        [self.scoreBar removeFromParentAndCleanup:YES];
+    
+    self.scoreBar = [RCScoreBar bar];
+    self.scoreBar.panda = self.panda;
+    self.scoreBar.anchorPoint = ccp(0,1);
+    self.scoreBar.position = ccp(0,WIN_SIZE.height);
+    [self addChild:self.scoreBar z:40];
+}
+
+#pragma mark - Buttons
+
+- (void)initButtons
+{
+    CGSize winSize = WIN_SIZE;
+    
+    CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"pause_button.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedPauseButton:)];
+    CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
+    menu.anchorPoint = ccp(0,1);
+    menu.position = ccp(30, winSize.height - 24);
+    [self addChild: menu z:50];
+    
+    CCSprite* bulletButtonSprite = [CCSprite spriteWithSpriteFrameName:@"bullet_button.png"];
+    menuItem = [CCMenuItemImage itemWithNormalSprite:bulletButtonSprite selectedSprite:nil target:self selector:@selector(clickedBulletButton:)];
+    menu = [CCMenu menuWithItems:menuItem, nil];
+    menu.position = ccp(winSize.width - 70, 60);
+    [self addChild: menu z:50];
+    
+    CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
+    menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
+    self.actionMenu = [CCMenu menuWithItems:menuItem, nil];
+    self.actionMenu.position = ccp(70, 60);
+    [self addChild:self.actionMenu z:50];
+}
+
+- (void)updateActionMenuImage:(int)type
+{
+    if(type == self.actionMenuType)
+        return;
+    
+    self.actionMenuType = type;
+    
+    CCMenuItemImage* menuItem = nil;
+    if(0 == type)
+    {
+        CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
+        menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
+    }
+    else if(1 == type)
+    {
+        CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"fly_button.png"];
+        menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
+        
+    }
+    
+    [self.actionMenu removeFromParentAndCleanup:YES];
+    
+    self.actionMenu = [CCMenu menuWithItems:menuItem, nil];
+    self.actionMenu.position = ccp(70, 60);
+    [self addChild:self.actionMenu z:50];
+}
+
+- (void)clickedBackButton:(id)token
+{
+    if([DIRECTOR isPaused])
+        [DIRECTOR resume];
+    
     CCScene* scene = [RCHomeScene scene];
     [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:scene withColor:ccWHITE]];
 }
 
+- (void)clickedResumeButton:(id)token
+{
+    if([DIRECTOR isPaused])
+    {
+        [RCTool resumeBgSound];
+        [DIRECTOR resume];
+    }
+}
+
+- (void)clickedRestartButton:(id)token
+{
+    if([DIRECTOR isPaused])
+    {
+        [RCTool resumeBgSound];
+        [DIRECTOR resume];
+    }
+    
+    CCScene* scene = [RCGameScene scene];
+    [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:scene withColor:ccWHITE]];
+}
+
+- (void)clickedPauseButton:(id)sender
+{
+    if(NO == [DIRECTOR isPaused])
+    {
+        [RCTool pauseBgSound];
+        [DIRECTOR pause];
+        
+        RCPauseLayer* pauseLayer = [[[RCPauseLayer alloc] init] autorelease];
+        pauseLayer.delegate = self;
+        pauseLayer.tag = T_PAUSE_LAYER;
+        [self addChild:pauseLayer z:100];
+    }
+}
+
+- (void)clickedBulletButton:(id)sender
+{
+    CCLOG(@"clickedBulletButton");
+    
+    [self clickedJumpButton];
+}
+
+- (void)clickedActionButton:(id)sender
+{
+    CCLOG(@"clickedActionButton");
+    
+    [self clickedJumpButton];
+}
+
+
+
+#pragma mark - Box2D
+
 - (void)draw
 {
 	[super draw];
-
+    
 #ifdef DEBUG
 	ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
 	kmGLPushMatrix();
@@ -133,14 +278,25 @@ static RCGameScene* sharedInstance = nil;
 #endif
 }
 
-#pragma mark - Box2D
-
 - (void)tick:(ccTime)dt
 {
     int32 velocityIterations = 8;
 	int32 positionIterations = 1;
     
 	_world->Step(dt, velocityIterations, positionIterations);
+    
+    CGFloat speed0;
+    CGFloat speed1;
+    if(self.panda.running)
+    {
+        speed0 = _terraceSpeed*MULTIPLE;
+        speed1 = _entitySpeed*MULTIPLE;
+    }
+    else
+    {
+        speed0 = _terraceSpeed;
+        speed1 = _entitySpeed;
+    }
     
     //移动Terrace
     NSMutableArray* tempArray = [[NSMutableArray alloc] init];
@@ -150,7 +306,8 @@ static RCGameScene* sharedInstance = nil;
         {
             [tempArray addObject:terrace];
         }
-        [terrace move:ccp(-1*_terraceSpeed,0)];
+        
+        [terrace move:ccp(-1*speed0,0)];
 	}
     
     [self.terraceArray removeObjectsInArray:tempArray];
@@ -173,6 +330,13 @@ static RCGameScene* sharedInstance = nil;
     
     [tempArray release];
     
+    //更新ActionMenuItem
+    if(self.panda.jumpCount >= 2)
+        [self updateActionMenuImage:1];
+    else
+        [self updateActionMenuImage:0];
+    
+    
     //移动道具
     for(CCSprite* entity in _entityArray)
     {
@@ -182,7 +346,7 @@ static RCGameScene* sharedInstance = nil;
             continue;
         }
         
-        entity.position = ccp(entity.position.x - _entitySpeed,entity.position.y);
+        entity.position = ccp(entity.position.x - speed1,entity.position.y);
     }
     
     for(CCSprite* entity in _entityArray)
@@ -203,6 +367,27 @@ static RCGameScene* sharedInstance = nil;
     CGFloat pandaY = [self.panda getBody]->GetPosition().y * PTM_RATIO;
     CGSize winSize = WIN_SIZE;
     
+    //CCLOG(@"pandaY:%f,limit:%f",pandaY,winSize.height - 40);
+    static float flyY = pandaY;
+    if(pandaY > TOP_HEIGHT_LIMIT - 40)//大于限定高度，使用flyY记录高度
+    {
+        if(flyY < pandaY)
+            flyY = pandaY;
+        
+        flyY += 0.5;
+        
+        //CCLOG(@"flyY:%f,pandaY2:%f",flyY,pandaY);
+        
+        pandaY = flyY;
+    }
+    else if(flyY > pandaY)//flyY 大于 pandaY 时，使用flyY
+    {
+        pandaY = flyY;
+        flyY -= 10;
+    }
+
+    
+    //CCLOG(@"pandaY3:%f",pandaY);
     CGFloat cY = pandaY - pandaHeight - winSize.height/2.0f;
     if(cY < 0)
     {
@@ -303,8 +488,8 @@ static RCGameScene* sharedInstance = nil;
     b2EdgeShape groundEdge;
     
     //top edge
-    groundEdge.Set(b2Vec2(0, winSize.height/PTM_RATIO),
-                   b2Vec2(winSize.width/PTM_RATIO, winSize.height/PTM_RATIO));
+    groundEdge.Set(b2Vec2(0, TOP_HEIGHT_LIMIT/PTM_RATIO),
+                   b2Vec2(winSize.width/PTM_RATIO, TOP_HEIGHT_LIMIT/PTM_RATIO));
     _groundFixture = _groundBody->CreateFixture(&groundEdge,0);
     
     //bottom edge
@@ -323,6 +508,9 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)initPanda
 {
+    if(self.panda)
+        [self.panda removeFromParentAndCleanup:YES];
+    
     self.panda = [RCPanda panda];
     self.panda.position = ccp(100,200);
     [self addChild:self.panda z:10];
@@ -361,6 +549,14 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)initTerraces
 {
+    //清理旧的Terraces
+    for(RCTerrace* terrace in _terraceArray)
+    {
+        [terrace removeFromParentAndCleanup:NO];
+    }
+    [_terraceArray removeAllObjects];
+    
+    //创建新的Terraces
     CGFloat offset_x = 20;
     CGFloat offset_y = 80;
     
@@ -371,8 +567,8 @@ static RCGameScene* sharedInstance = nil;
         CGFloat random = arc4random()%60;
         CGFloat random2 = MAX(20.0 + terrace.contentSize.width/2.0,arc4random()%100);
         offset_x += random2;
-        terrace.position = ccp(offset_x,offset_y + random);
         
+        terrace.position = ccp(offset_x,offset_y + random);
         [self.parallaxBg addChild:terrace z:10];
         
         //创建球的body
@@ -416,6 +612,7 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)addEntityByType:(int)type
 {
+    type = 7;
     CGSize winSize = WIN_SIZE;
     if(ET_SPEEDUP == type)
     {
@@ -473,11 +670,190 @@ static RCGameScene* sharedInstance = nil;
             [_entityArray addObject:entity];
         }
     }
+    else if(ET_SPDOWN == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCSPDownEntity* entity = [RCSPDownEntity entity:ET_SPDOWN];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_BULLET == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCBulletEntity* entity = [RCBulletEntity entity:ET_BULLET];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_MONEY == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCMoneyEntity* entity = [RCMoneyEntity entity:ET_MONEY];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_SPRING == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCSpringEntity* entity = [RCSpringEntity entity:ET_SPRING];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_SNAKE == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = 0;
+        CGFloat offset_y = 0;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = position.x - terrace.contentSize.width/2.0 + arc4random()%(int)(terrace.contentSize.width - 20);
+            offset_y = position.y + terrace.contentSize.height/2.0 + 14;
+            
+            RCSnakeEntity* entity = [RCSnakeEntity entity:ET_SNAKE];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
+    else if(ET_BOMB == type)
+    {
+        RCTerrace* terrace = nil;
+        for(RCTerrace* temp in _terraceArray)
+        {
+            CGPoint position = [temp getPos];
+            if(position.x > winSize.width)
+            {
+                terrace = temp;
+            }
+        }
+        
+        CGFloat offset_x = winSize.width;
+        CGFloat offset_y = arc4random()%50 + 50;
+        if(terrace)
+        {
+            CGPoint position = [terrace getPos];
+            offset_x = winSize.width;
+            offset_y += position.y + terrace.contentSize.height/2.0;
+            
+            RCBombEntity* entity = [RCBombEntity entity:ET_BOMB];
+            entity.position = ccp(offset_x,offset_y);
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+    }
 }
 
 - (void)addEntityForTimes:(ccTime)delta
 {
-    int rand = arc4random()%(ET_SPUP + 1);
+    int array[] = {0,0,0,0,0,1,1,1,1,2,3,3,3,3,3,4,4,4,4,4,4,4,4,5,6,7};
+    
+    int size = sizeof(array)/sizeof(int);
+    //随机排序数组
+    for (NSUInteger i = 0; i < size; ++i) {
+        // Select a random element between i and end of array to swap with.
+        int nElements = size - i;
+        int n = (arc4random() % nElements) + i;
+        
+        int temp = array[n];
+        array[n] = array[i];
+        array[i] = temp;
+    }
+    
+    
+    int rand = arc4random()%size;
+    rand = array[rand];
+    //CCLOG(@"rand:%d",rand);
     [self addEntityByType:rand];
 }
 
@@ -490,6 +866,7 @@ static RCGameScene* sharedInstance = nil;
         if(NO == [self.panda isWalking] && NO == [self.panda isScrolling])
         {
             CCLOG(@"land");
+            self.panda.jumpCount = 0;
             [RCTool playEffectSound:MUSIC_LAND];
             [terrace beHit];
         }
@@ -503,7 +880,8 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)clickedJumpButton
 {
-    [self.panda jump];
+    if(NO == self.panda.isFainting)
+        [self.panda jump];
 }
 
 #pragma mark - Touch Event
@@ -515,7 +893,7 @@ static RCGameScene* sharedInstance = nil;
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    //CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
    
     [self clickedJumpButton];
     
@@ -527,6 +905,22 @@ static RCGameScene* sharedInstance = nil;
 }
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+}
+
+#pragma mark - GameOver
+
+- (void)gameover:(NSNotification*)notification
+{
+    _terraceSpeed = 0.0;
+    _entitySpeed = 0.0;
+    
+    [self unschedule:@selector(addEntityForTimes:)];
+    
+    [self performSelector:@selector(showResult:) withObject:nil afterDelay:1.0];
+}
+
+- (void)showResult:(id)argument
 {
 }
 

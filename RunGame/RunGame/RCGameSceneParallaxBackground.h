@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "cocos2d.h"
 
 @interface RCGameSceneParallaxBackground : CCLayer {
     
@@ -16,5 +15,6 @@
 @property(nonatomic,retain)CCSpriteBatchNode* batch;
 @property(nonatomic,retain)CCArray* speedFactors;
 @property(assign)float scrollSpeed;
+@property(assign)BOOL running;
 
 @end

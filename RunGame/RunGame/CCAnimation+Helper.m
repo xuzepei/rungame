@@ -67,5 +67,22 @@
 	return [CCAnimation animationWithSpriteFrames:frames delay:delay];
 }
 
++ (CCAnimation*)animationWithFile:(NSString*)filename itemSize:(CGSize)itemSize delay:(float)delay
+{
+    CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage: filename];
+    
+    CGSize imageSize = [texture contentSizeInPixels];
+    CCAnimation* animation = [CCAnimation animation];
+    animation.delayPerUnit = delay;
+    
+    int count = (int)(imageSize.width / itemSize.width);
+    for(int i = 0; i < count; i++)
+    {
+        [animation addSpriteFrameWithTexture:texture rect:CGRectMake(i*itemSize.width, 0, itemSize.width, itemSize.height)];
+    }
+    
+    return animation;
+}
+
 @end
 

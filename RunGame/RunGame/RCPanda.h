@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "RCBox2dSprite.h"
-#import "CCActionManager.h"
 
 typedef enum
 {
@@ -42,15 +41,26 @@ typedef enum
 @property(nonatomic,retain)CCAnimation* flyAnimation;
 @property(nonatomic,retain)CCAnimation* scrollAnimation;
 @property(nonatomic,retain)CCAnimation* runAnimation;
+@property(nonatomic,retain)CCAnimation* dustAnimation;
+@property(nonatomic,retain)CCAnimation* bubbleAnimation;
+@property(nonatomic,retain)CCAnimation* faintAnimation;
+@property(nonatomic,retain)CCAnimation* bombAnimation;
 @property(assign)float jumpImpulse;
 @property(assign)float rollImpulse;
 @property(assign)float flyImpulse;
 @property(assign)int jumpCount;
 @property(assign)BOOL running;
+@property(assign)BOOL isFainting;
+@property(assign)BOOL isDeaded;
 
 @property(assign)int speedUpCount; //加速次数
 @property(assign)float speedUpTime; //加速时间
 @property(assign)float spValue; //气力值
+@property(assign)int money; //钱
+@property(assign)float springTime; //增加弹力时间
+@property(assign)int bulletCount; //子弹数
+@property(assign)int distance; //移动距离
+@property(assign)float faintTime; //晕的时间
 
 
 + (id)panda;
@@ -69,8 +79,19 @@ typedef enum
 - (void)down;
 - (void)run;
 
+- (void)playBubbleAnimation;
+
 - (void)addSpeedUpTime;
 - (void)increaseSPValue;
+- (void)decreaseSPValue;
+- (void)addMoney;
+- (void)addSpringTime;
+- (void)addBulletCount;
+- (void)addFaintTime;
+- (void)bomb;
+
+
+
 
 
 @end

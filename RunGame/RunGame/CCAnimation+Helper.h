@@ -14,5 +14,6 @@
 + (CCAnimation*)animationWithFile:(NSString*)name frameCount:(int)frameCount delay:(float)delay;
 + (CCAnimation*)animationWithFrame:(NSString*)frame frameCount:(int)frameCount delay:(float)delay;
 + (CCAnimation*)animationWithFrame:(NSString*)frame indexArray:(NSArray*)indexArray delay:(float)delay;
++ (CCAnimation*)animationWithFile:(NSString*)filename itemSize:(CGSize)itemSize delay:(float)delay;
 
 @end

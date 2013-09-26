@@ -26,12 +26,16 @@
     // Loading the Ship's sprite using a sprite frame name (eg the filename)
 	if ((self = [super initWithSpriteFrameName:@"walk_0.png"]))
 	{
-        self.jumpImpulse = 10.0;
-        self.rollImpulse = 12.0;
-        self.flyImpulse = 14.0;
+        self.jumpImpulse = 16.0;
+        self.rollImpulse = 18.0;
+        self.flyImpulse = 20.0;
         
         //self.speedUpCount = 1;
         self.spValue = DEFAULT_SP_VALUE;
+        
+        [RCTool preloadEffectSound:MUSIC_ADD];
+        [RCTool preloadEffectSound:MUSIC_JUMP];
+        [RCTool preloadEffectSound:MUSIC_DEAD];
         
         NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",nil];
         NSString* frameName = [NSString stringWithFormat:@"walk_"];
@@ -52,21 +56,42 @@
         frameName = [NSString stringWithFormat:@"run_"];
         self.runAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
         
+        frameName = [NSString stringWithFormat:@"faint_"];
+        self.faintAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
+        
+        frameName = [NSString stringWithFormat:@"bomb_"];
+        self.bombAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
+        
+        indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",nil];
+        frameName = [NSString stringWithFormat:@"dust_"];
+        self.dustAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
+        
+        frameName = [NSString stringWithFormat:@"bubble_"];
+        self.bubbleAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.05];
+        
  		[self scheduleUpdate];
         
         [self schedule:@selector(updateForTimes:) interval:0.5f];
+        
+        [self schedule:@selector(updateDistanceForTimes:) interval:0.1f];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     self.walkAnimation = nil;
     self.jumpAnimation = nil;
     self.rollAnimation = nil;
     self.flyAnimation = nil;
     self.scrollAnimation = nil;
     self.runAnimation = nil;
+    self.dustAnimation = nil;
+    self.bubbleAnimation = nil;
+    self.faintAnimation = nil;
+    self.bombAnimation = nil;
     
     [super dealloc];
 }
@@ -86,6 +111,9 @@
     else
         self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue + 0.5);
     
+    //减弹力
+    if(self.springTime > 0)
+        self.springTime--;
     
     //检测跑动
     if(self.speedUpTime > 0)
@@ -106,6 +134,35 @@
     }
 }
 
+- (void)updateDistanceForTimes:(ccTime)delta
+{
+    //增加距离
+    if(self.speedUpTime > 0)
+        self.distance += MULTIPLE;
+    else
+        self.distance++;
+    
+    //减晕的时间
+    if(self.faintTime > 0)
+    {
+        self.faintTime--;
+        
+        if(NO == self.isFainting)
+        {
+            self.isFainting = YES;
+            [self switchToStateAnimation];
+        }
+    }
+    else{
+        
+        if(self.isFainting)
+        {
+            self.isFainting = NO;
+            [self switchToStateAnimation];
+        }
+    }
+}
+
 - (BOOL)needCheckCollision
 {
     if(PST_JUMPUP == self.state || PST_WALKING == self.state|| PST_SCROLLING == self.state)
@@ -118,13 +175,13 @@
 
 - (void)walk
 {
-    [self stopAllActions];
+    //[self stopAllActions];
     self.state = PST_WALKING;
     [self run];
     
     [self switchToStateAnimation];
     
-    self.jumpCount = 0.0;
+    self.jumpCount = 0;
 }
 
 - (BOOL)isWalking
@@ -136,7 +193,6 @@
 
 - (void)jump
 {
-    //CCLOG(@"jumpCount:%d",self.jumpCount);
     if(PST_JUMPUP == self.state)
         return;
     
@@ -151,18 +207,20 @@
         return;
     }
     
-    [self stopAllActions];
+    //[self stopAllActions];
     self.jumpCount++;
-    
 
-    
     //在跳起时不进行碰撞监测
     self.state = PST_JUMPUP;
+    [RCTool playEffectSound:MUSIC_JUMP];
     [self switchToStateAnimation];
     [self performSelector:@selector(jumpUp:) withObject:nil afterDelay:0.1];
     
     //添加冲力
-    b2Vec2 impulse = b2Vec2(0,self.jumpImpulse);
+    CGFloat jumpImpulse = self.jumpImpulse;
+    if(self.springTime > 0)
+        jumpImpulse += 5;
+    b2Vec2 impulse = b2Vec2(0,jumpImpulse);
     b2Body* body = [self getBody];
     if(body)
     {
@@ -184,10 +242,11 @@
 
 - (void)roll
 {
-    [self stopAllActions];
+    //[self stopAllActions];
     self.jumpCount++;
 
     self.state = PST_ROLLING;
+    [RCTool playEffectSound:MUSIC_JUMP];
     [self switchToStateAnimation];
     
     //添加冲力
@@ -212,7 +271,7 @@
     
     if(PST_FLYING != self.state)
     {
-        [self stopAllActions];
+        //[self stopAllActions];
         
         self.state = PST_FLYING;
         [self switchToStateAnimation];
@@ -240,7 +299,7 @@
 
 - (void)scroll
 {
-    [self stopAllActions];
+    //[self stopAllActions];
     
     self.state = PST_SCROLLING;
     [self switchToStateAnimation];
@@ -291,8 +350,22 @@
     }
 }
 
+#pragma mark - Animation
+
 - (void)switchToStateAnimation
 {
+    if(self.isDeaded)
+        return;
+    
+    if(self.isFainting)
+    {
+        [self stopAllActions];
+        CCAnimate* faint = [CCAnimate actionWithAnimation:self.faintAnimation];
+        CCRepeatForever* repeat = [CCRepeatForever actionWithAction:faint];
+        [self runAction:repeat];
+        return;
+    }
+    
     switch (self.state) {
         case PST_WALKING:
         {
@@ -309,9 +382,21 @@
             break;
         }
         case PST_JUMPUP:
+        {
+            CCSprite* dust = [CCSprite spriteWithSpriteFrameName:@"dust_0.png"];
+            dust.position = ccp(0,3);
+            [self addChild:dust];
+            
+            CCAnimate* dustAnimate = [CCAnimate actionWithAnimation:self.dustAnimation];
+            CCCallFunc *done = [CCCallFuncN actionWithTarget:self selector:@selector(dustDone:)];
+            CCSequence* sequence = [CCSequence actions:dustAnimate,done,nil];
+            [dust runAction:sequence];
+            
+        }
         case PST_JUMPING:
         {
             [self stopAllActions];
+            
             CCAnimate* jump = [CCAnimate actionWithAnimation:self.jumpAnimation];
             CCSequence* sequence = [CCSequence actions:jump,nil];
             [self runAction:sequence];
@@ -352,10 +437,37 @@
     }
 }
 
+- (void)dustDone:(id)sender
+{
+    CCSprite* dust = (CCSprite*)sender;
+    [dust removeFromParentAndCleanup:YES];
+}
+
+- (void)playBubbleAnimation
+{
+    CCSprite* bubble = [CCSprite spriteWithSpriteFrameName:@"bubble_0.png"];
+    bubble.position = ccp(self.contentSize.width/2.0,self.contentSize.height/2.0);
+    [self addChild:bubble];
+    
+    CCAnimate* bubbleAnimate = [CCAnimate actionWithAnimation:self.bubbleAnimation];
+    CCCallFunc *done = [CCCallFuncN actionWithTarget:self selector:@selector(bubbleDone:)];
+    CCSequence* sequence = [CCSequence actions:bubbleAnimate,done,nil];
+    [bubble runAction:sequence];
+    
+    [RCTool playEffectSound:MUSIC_ADD];
+}
+
+- (void)bubbleDone:(id)sender
+{
+    CCSprite* bubble = (CCSprite*)sender;
+    [bubble removeFromParentAndCleanup:YES];
+}
+
 #pragma mark - Handle Entity
 
 - (void)addSpeedUpTime
 {
+    [self playBubbleAnimation];
     self.speedUpTime += DEFAULT_SPEED_UP_TIME;
     
     [self run];
@@ -363,12 +475,77 @@
 
 - (void)increaseSPValue
 {
+    [self playBubbleAnimation];
     self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue+5);
 }
 
 - (void)decreaseSPValue
 {
-    self.spValue = MAX(0,self.spValue-1);
+    self.spValue = MAX(0,self.spValue-5);
+}
+
+- (void)addMoney
+{
+    [self playBubbleAnimation];
+    self.money++;
+}
+
+- (void)addSpringTime
+{
+    [self playBubbleAnimation];
+    self.springTime += 10.0f;
+}
+
+- (void)addBulletCount
+{
+    [self playBubbleAnimation];
+    self.bulletCount++;
+}
+
+- (void)addFaintTime
+{
+    self.faintTime += 4.0f;
+}
+
+- (void)bomb
+{
+    if(self.isDeaded)
+        return;
+    
+    self.isDeaded = YES;
+    [self unschedule:@selector(updateForTimes:)];
+    [self unschedule:@selector(updateDistanceForTimes:)];
+    
+    [self getBody]->SetActive(false);
+    
+    [self stopAllActions];
+    CCAnimate* bomb = [CCAnimate actionWithAnimation:self.bombAnimation];
+    CCRepeatForever* repeat = [CCRepeatForever actionWithAction:bomb];
+    [self runAction:repeat];
+    
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMEOVER_NOTIFICATION
+                                                        object:nil
+                                                      userInfo:nil];
+    
+    [self performSelector:@selector(goToHell:) withObject:nil afterDelay:1.0];
+    
+}
+
+- (void)goToHell:(id)agrument
+{
+    [self getBody]->SetActive(true);
+    [self getFixture]->SetSensor(true);
+    
+    //添加冲力
+    b2Vec2 impulse = b2Vec2(0,-1);
+    b2Body* body = [self getBody];
+    if(body)
+    {
+        [RCTool pauseBgSound];
+        [RCTool playEffectSound:MUSIC_DEAD];
+        body->ApplyLinearImpulse(impulse, body->GetPosition());
+    }
 }
 
 @end

@@ -333,6 +333,17 @@
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:soundName loop:YES];
 }
 
++ (void)pauseBgSound
+{
+    [[SimpleAudioEngine sharedEngine] pauseBackgroundMusic];
+}
+
++ (void)resumeBgSound
+{
+    [[SimpleAudioEngine sharedEngine] resumeBackgroundMusic];
+}
+
+
 #pragma mark - Core Data
 
 + (NSPersistentStoreCoordinator*)getPersistentStoreCoordinator

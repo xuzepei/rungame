@@ -9,7 +9,6 @@
 #import "RCGameSceneParallaxBackground.h"
 
 #define SPRITE_TYPE 7
-#define SCROLL_SPEED 8.0f
 
 @implementation RCGameSceneParallaxBackground
 
@@ -18,6 +17,8 @@
     if(self = [super init])
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScrollSpeed:) name:RUNNING_NOTIFICATION object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameover:) name:GAMEOVER_NOTIFICATION object:nil];
         
         
         CGSize winSize = WIN_SIZE;
@@ -53,6 +54,8 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     self.batch = nil;
     self.speedFactors = nil;
     
@@ -87,7 +90,7 @@
     CGSize winSize = WIN_SIZE;
     
     int i = 0;
-    NSString* frameName = _scrollSpeed > SCROLL_SPEED ? @"forest_1.png":@"forest.png";
+    NSString* frameName = self.running ? @"forest_1.png":@"forest.png";
     CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -104,7 +107,7 @@
     [self.batch addChild:sprite z:i tag:i+SPRITE_TYPE];
     i++;
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"terrain_1.png":@"terrain.png";
+    frameName = self.running ? @"terrain_1.png":@"terrain.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -122,7 +125,7 @@
     i++;
     
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"hill_1.png":@"hill.png";
+    frameName = self.running ? @"hill_1.png":@"hill.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -139,7 +142,7 @@
     [self.batch addChild:sprite z:i tag:i+SPRITE_TYPE];
     i++;
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"tree_1.png":@"tree.png";
+    frameName = self.running ? @"tree_1.png":@"tree.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -156,7 +159,7 @@
     [self.batch addChild:sprite z:i tag:i+SPRITE_TYPE];
     i++;
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"bush_1.png":@"bush.png";
+    frameName = self.running ? @"bush_1.png":@"bush.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -173,7 +176,7 @@
     [self.batch addChild:sprite z:i tag:i+SPRITE_TYPE];
     i++;
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"grass_1.png":@"grass.png";
+    frameName = self.running ? @"grass_1.png":@"grass.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -190,7 +193,7 @@
     [self.batch addChild:sprite z:i tag:i+SPRITE_TYPE];
     i++;
     
-    frameName = _scrollSpeed > SCROLL_SPEED ? @"flower_1.png":@"flower.png";
+    frameName = self.running ? @"flower_1.png":@"flower.png";
     sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     if(NO == [RCTool isIphone5])
         sprite.scale = WIN_SIZE.width/568.0f;
@@ -212,17 +215,24 @@
 {
     NSDictionary* userInfo = [notification userInfo];
     
-    BOOL isRunning = [[userInfo objectForKey:@"isRunning"] boolValue];
-    if(isRunning)
-    {
-        _scrollSpeed = SCROLL_SPEED*2;
-    }
-    else
-    {
-        _scrollSpeed = SCROLL_SPEED;
-    }
+    self.running = [[userInfo objectForKey:@"isRunning"] boolValue];
+    
+//    BOOL running = [[userInfo objectForKey:@"running"] boolValue];
+//    if(running)
+//    {
+//        _scrollSpeed = SCROLL_SPEED*3;
+//    }
+//    else
+//    {
+//        _scrollSpeed = SCROLL_SPEED;
+//    }
     
     [self initBgObjects];
+}
+
+- (void)gameover:(NSNotification*)notification
+{
+    _scrollSpeed = 0.0;
 }
 
 @end

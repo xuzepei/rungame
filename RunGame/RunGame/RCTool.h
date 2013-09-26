@@ -47,6 +47,8 @@
 + (void)playEffectSound:(NSString*)soundName;
 
 + (void)playBgSound:(NSString*)soundName;
++ (void)pauseBgSound;
++ (void)resumeBgSound;
 
 #pragma mark - Core Data
 

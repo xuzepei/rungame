@@ -46,6 +46,7 @@ typedef enum{
     T_HOMEMENU_START,
     T_HOMEMENU_ABOUT,
     T_HOMEMENU_SETTING,
+    T_PAUSE_LAYER,
 }TAG;
 
 //滑块类型
@@ -55,13 +56,25 @@ typedef enum{
     SLT_EFFECT_VOLUME,
 }SLIDER_TYPE;
 
+
 //道具类型
 typedef enum{
     ET_UNKNOWN = -1,
     ET_SPEEDUP, //加速
     ET_SPUP, //加体力
-    //ET_SPDOWN, //减体力
+    ET_SPDOWN, //减体力
+    ET_BULLET, //子弹
+    ET_MONEY, //钱
+    ET_SPRING, //弹簧
+    ET_SNAKE, //蛇
+    ET_BOMB, //炸弹
 }ENTITY_TYPE;
+
+//背景滚动速度
+#define SCROLL_SPEED 7.0f
+
+//增加倍数
+#define MULTIPLE 2
 
 //导航条高度
 #define NAVIGATION_BAR_HEIGHT 32.0
@@ -75,7 +88,13 @@ typedef enum{
 //声音文件
 #define MUSIC_BG @"bg.mp3"
 #define MUSIC_LAND @"land.mp3"
+#define MUSIC_ADD @"add.mp3"
 #define MUSIC_CLICK @""
+#define MUSIC_JUMP @"jump.mp3"
+#define MUSIC_BOMB @"bomb.mp3"
+#define MUSIC_DEAD @"dead.mp3"
 
 //定义通知
 #define RUNNING_NOTIFICATION @"RUNNING_NOTIFICATION"
+#define GAMEOVER_NOTIFICATION @"GAMEOVER_NOTIFICATION"
+

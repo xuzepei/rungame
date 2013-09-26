@@ -12,6 +12,7 @@
 #import "RCPanda.h"
 #import "RCTerrace.h"
 #import "MyContactListener.h"
+#import "RCScoreBar.h"
 
 @class RCGameSceneParallaxBackground;
 @interface RCGameScene : CCLayer {
@@ -32,6 +33,9 @@
 @property(assign)CGFloat terraceSpeed;
 @property(assign)CGFloat entitySpeed;
 @property(nonatomic,retain)RCGameSceneParallaxBackground* parallaxBg;
+@property(nonatomic,retain)RCScoreBar* scoreBar;
+@property(nonatomic,retain)CCMenu* actionMenu;
+@property(assign)int actionMenuType;
 
 + (id)scene;
 + (RCGameScene*)sharedInstance;
