@@ -343,6 +343,40 @@
     [[SimpleAudioEngine sharedEngine] resumeBackgroundMusic];
 }
 
+#pragma mark - Record
+
++ (int)getRecordByType:(int)type
+{
+//    RT_DISTANCE,
+//    RT_MONEY,
+//    RT_SHIELD,
+//    RT_BAMBOO,
+//    RT_MILK,
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    switch (type) {
+        case RT_DISTANCE:
+        case RT_MONEY:
+        case RT_SHIELD:
+        case RT_BULLET:
+        case RT_MILK:
+        {
+            NSString* key = [NSString stringWithFormat:@"RT_%d",type];
+            return [[defaults objectForKey:key] intValue];
+        }
+        default:
+            break;
+    }
+}
+
++ (void)setRecordByType:(int)type value:(int)value
+{
+    NSString* key = [NSString stringWithFormat:@"RT_%d",type];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSNumber numberWithInt:value] forKey:key];
+    [defaults synchronize];
+}
 
 #pragma mark - Core Data
 

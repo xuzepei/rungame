@@ -29,10 +29,12 @@
         self.jumpImpulse = 16.0;
         self.rollImpulse = 18.0;
         self.flyImpulse = 20.0;
+        self.money = [RCTool getRecordByType:RT_MONEY];
+        self.bulletCount = 200;
         
         //self.speedUpCount = 1;
         self.spValue = DEFAULT_SP_VALUE;
-        
+
         [RCTool preloadEffectSound:MUSIC_ADD];
         [RCTool preloadEffectSound:MUSIC_JUMP];
         [RCTool preloadEffectSound:MUSIC_DEAD];
@@ -141,6 +143,11 @@
         self.distance += MULTIPLE;
     else
         self.distance++;
+    
+    //记录最大的距离
+    int max_distance = [RCTool getRecordByType:RT_DISTANCE];
+    if(max_distance < self.distance)
+        [RCTool setRecordByType:RT_DISTANCE value:self.distance];
     
     //减晕的时间
     if(self.faintTime > 0)
@@ -488,6 +495,7 @@
 {
     [self playBubbleAnimation];
     self.money++;
+    [RCTool setRecordByType:RT_MONEY value:self.money];
 }
 
 - (void)addSpringTime
@@ -507,7 +515,7 @@
     self.faintTime += 4.0f;
 }
 
-- (void)bomb
+- (void)dead
 {
     if(self.isDeaded)
         return;
@@ -516,18 +524,25 @@
     [self unschedule:@selector(updateForTimes:)];
     [self unschedule:@selector(updateDistanceForTimes:)];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:GAMEOVER_NOTIFICATION
+                                                        object:nil
+                                                      userInfo:nil];
+}
+
+- (void)bomb
+{
+    if(self.isDeaded)
+        return;
+    
+    [self dead];
+    
     [self getBody]->SetActive(false);
     
     [self stopAllActions];
     CCAnimate* bomb = [CCAnimate actionWithAnimation:self.bombAnimation];
     CCRepeatForever* repeat = [CCRepeatForever actionWithAction:bomb];
     [self runAction:repeat];
-    
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:GAMEOVER_NOTIFICATION
-                                                        object:nil
-                                                      userInfo:nil];
-    
     [self performSelector:@selector(goToHell:) withObject:nil afterDelay:1.0];
     
 }

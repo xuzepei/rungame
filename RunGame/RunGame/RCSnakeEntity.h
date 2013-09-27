@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCPanda.h"
+#import "RCGameScene.h"
 
 @interface RCSnakeEntity : CCSprite {
     
@@ -16,6 +17,8 @@
 @property(assign)ENTITY_TYPE type;
 @property(assign)RCPanda* panda;
 @property(assign)BOOL isCollided;
+@property(assign)BOOL isShooted;
+@property(assign)RCGameScene* gameScene;
 
 + (id)entity:(ENTITY_TYPE)type;
 - (id)initWithType:(ENTITY_TYPE)type;

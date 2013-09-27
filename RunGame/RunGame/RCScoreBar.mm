@@ -73,17 +73,17 @@
 
 - (void)initLabels
 {
-    self.label0 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:12.5 itemHeight:12.5 startCharMap:'0'] autorelease];
+    self.label0 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:11.5 itemHeight:12.5 startCharMap:'0'] autorelease];
     self.label0.anchorPoint = ccp(0, 0);
     self.label0.position = ccp(655.0/2.0, 11.6);
     [self addChild:self.label0];
     
-    self.label1 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:12.5 itemHeight:12.5 startCharMap:'0'] autorelease];
+    self.label1 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:11.5 itemHeight:12.5 startCharMap:'0'] autorelease];
     self.label1.anchorPoint = ccp(0, 0);
     self.label1.position = ccp(735.0/2.0, 11.6);
     [self addChild:self.label1];
     
-    self.label2 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:12.5 itemHeight:12.5 startCharMap:'0'] autorelease];
+    self.label2 = [[[CCLabelAtlas alloc] initWithString:@"0" charMapFile:@"light_number.png" itemWidth:11.5 itemHeight:12.5 startCharMap:'0'] autorelease];
     self.label2.anchorPoint = ccp(0, 0);
     self.label2.position = ccp(813.0/2.0, 11.6);
     [self addChild:self.label2];

@@ -47,6 +47,7 @@ typedef enum{
     T_HOMEMENU_ABOUT,
     T_HOMEMENU_SETTING,
     T_PAUSE_LAYER,
+    T_BULLET_BUTTON,
 }TAG;
 
 //滑块类型
@@ -69,6 +70,16 @@ typedef enum{
     ET_SNAKE, //蛇
     ET_BOMB, //炸弹
 }ENTITY_TYPE;
+
+//记录类型
+typedef enum{
+    RT_UNKNOWN = -1,
+    RT_DISTANCE,
+    RT_MONEY,
+    RT_SHIELD,
+    RT_BULLET,
+    RT_MILK,
+}RECORD_TYPE;
 
 //背景滚动速度
 #define SCROLL_SPEED 7.0f

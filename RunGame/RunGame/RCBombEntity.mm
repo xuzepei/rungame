@@ -40,6 +40,7 @@
 - (void)dealloc
 {
     self.panda = nil;
+    self.gameScene = nil;
     [super dealloc];
 }
 
@@ -63,6 +64,13 @@
 
         if(self.panda)
             [self.panda bomb];
+        
+        return;
+    }
+    
+    if([self checkBeShooted])
+    {
+        [self setVisible:NO];
     }
 }
 
@@ -86,6 +94,28 @@
         {
             self.isCollided = YES;
             return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)checkBeShooted
+{
+    if(self.isShooted)
+        return NO;
+    
+    if(self.gameScene.bulletBatchNode)
+    {
+        for(CCSprite* bullet in [self.gameScene.bulletBatchNode children])
+        {
+            CGFloat distance = ccpDistance(bullet.position, self.position);
+            if(distance <= bullet.contentSize.width/2.0 + self.contentSize.width/2.0 - 6)
+            {
+                [bullet setVisible:NO];
+                self.isShooted = YES;
+                return YES;
+            }
         }
     }
     

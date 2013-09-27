@@ -19,6 +19,7 @@
 #import "RCSpringEntity.h"
 #import "RCMoneyEntity.h"
 #import "RCPauseLayer.h"
+#import "RCResultLayer.h"
 
 
 #define TERRACE_NUM 6
@@ -65,6 +66,8 @@ static RCGameScene* sharedInstance = nil;
         
         [self initTerraces];
         
+        [self initBulletBathNode];
+        
         //创建积分条
         [self initScoreBar];
         
@@ -73,10 +76,11 @@ static RCGameScene* sharedInstance = nil;
         
         [self schedule:@selector(tick:)];
         
-        [self schedule:@selector(addEntityForTimes:) interval:3.0f];
+        [self schedule:@selector(addEntityForTimes:) interval:0.5f];
         
         [RCTool playBgSound:MUSIC_BG];
         [RCTool preloadEffectSound:MUSIC_LAND];
+        [RCTool preloadEffectSound:MUSIC_DEAD];
 
     }
     
@@ -86,7 +90,6 @@ static RCGameScene* sharedInstance = nil;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //[RCTool removeCacheFrame:@"game_scene_images.plist"];
     
     if(_debugDraw)
     {
@@ -168,6 +171,7 @@ static RCGameScene* sharedInstance = nil;
     menuItem = [CCMenuItemImage itemWithNormalSprite:bulletButtonSprite selectedSprite:nil target:self selector:@selector(clickedBulletButton:)];
     menu = [CCMenu menuWithItems:menuItem, nil];
     menu.position = ccp(winSize.width - 70, 60);
+    menu.tag = T_BULLET_BUTTON;
     [self addChild: menu z:50];
     
     CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
@@ -206,9 +210,14 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)clickedBackButton:(id)token
 {
+    //先设置熊猫为初始位置，否则tick将检测为gameover状态
+    [self.panda setPos:ccp(100,200)];
+    [self.panda getBody]->SetActive(false);
+    
     if([DIRECTOR isPaused])
         [DIRECTOR resume];
     
+    //[RCTool removeCacheFrame:@"game_scene_images.plist"];
     CCScene* scene = [RCHomeScene scene];
     [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:scene withColor:ccWHITE]];
 }
@@ -224,6 +233,10 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)clickedRestartButton:(id)token
 {
+    //先设置熊猫为初始位置，否则tick将检测为gameover状态
+    [self.panda setPos:ccp(100,200)];
+    [self.panda getBody]->SetActive(false);
+    
     if([DIRECTOR isPaused])
     {
         [RCTool resumeBgSound];
@@ -231,7 +244,7 @@ static RCGameScene* sharedInstance = nil;
     }
     
     CCScene* scene = [RCGameScene scene];
-    [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:scene withColor:ccWHITE]];
+    [DIRECTOR replaceScene:scene];
 }
 
 - (void)clickedPauseButton:(id)sender
@@ -253,6 +266,8 @@ static RCGameScene* sharedInstance = nil;
     CCLOG(@"clickedBulletButton");
     
     [self clickedJumpButton];
+    
+    [self shoot];
 }
 
 - (void)clickedActionButton:(id)sender
@@ -374,7 +389,7 @@ static RCGameScene* sharedInstance = nil;
         if(flyY < pandaY)
             flyY = pandaY;
         
-        flyY += 0.5;
+        flyY += 1;
         
         //CCLOG(@"flyY:%f,pandaY2:%f",flyY,pandaY);
         
@@ -393,17 +408,19 @@ static RCGameScene* sharedInstance = nil;
     {
         cY = 0;
     }
+
+    [self.parallaxBg setPosition:ccp(self.parallaxBg.position.x,-cY)];
     
-    // do some parallax scrolling
-//    [objectLayer setPosition:ccp(0,-cY)];
-//    [floorBackground setPosition:ccp(0,-cY*0.8)]; // move floor background slower
-    [self.parallaxBg setPosition:ccp(self.parallaxBg.position.x,-cY)];      // move main background even slower
-    
-//    for(RCTerrace* terrace in self.terraceArray)
-//    {
-//        //CGFloat cY = pandaY - terrace.contentSize.height - terrace.position.y;
-//        [terrace setPos:CGPointMake(terrace.position.x,200)];
-//    }
+    //判断游戏结束
+    pandaY = [self.panda getBody]->GetPosition().y * PTM_RATIO;
+    if(pandaY < -self.panda.contentSize.height/2.0)
+    {
+        if(NO == self.panda.isDeaded)
+            [RCTool playEffectSound:MUSIC_DEAD];
+        
+        [self.panda dead];
+        [self showResult:nil];
+    }
 
 }
 
@@ -612,7 +629,6 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)addEntityByType:(int)type
 {
-    type = 7;
     CGSize winSize = WIN_SIZE;
     if(ET_SPEEDUP == type)
     {
@@ -693,6 +709,7 @@ static RCGameScene* sharedInstance = nil;
             RCSPDownEntity* entity = [RCSPDownEntity entity:ET_SPDOWN];
             entity.position = ccp(offset_x,offset_y);
             entity.panda = self.panda;
+            entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
         }
@@ -801,6 +818,7 @@ static RCGameScene* sharedInstance = nil;
             RCSnakeEntity* entity = [RCSnakeEntity entity:ET_SNAKE];
             entity.position = ccp(offset_x,offset_y);
             entity.panda = self.panda;
+            entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
         }
@@ -828,6 +846,7 @@ static RCGameScene* sharedInstance = nil;
             RCBombEntity* entity = [RCBombEntity entity:ET_BOMB];
             entity.position = ccp(offset_x,offset_y);
             entity.panda = self.panda;
+            entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
         }
@@ -917,11 +936,62 @@ static RCGameScene* sharedInstance = nil;
     
     [self unschedule:@selector(addEntityForTimes:)];
     
-    [self performSelector:@selector(showResult:) withObject:nil afterDelay:1.0];
+    //[self performSelector:@selector(showResult:) withObject:nil afterDelay:1.5];
 }
 
 - (void)showResult:(id)argument
 {
+    if(NO == [DIRECTOR isPaused])
+    {
+        [RCTool pauseBgSound];
+        [DIRECTOR pause];
+        
+        RCResultLayer* resultLayer = [[[RCResultLayer alloc] init] autorelease];
+        resultLayer.delegate = self;
+        [resultLayer updateContent:self.panda.distance];
+        [self addChild:resultLayer z:100];
+        
+        [self removeChildByTag:T_BULLET_BUTTON cleanup:YES];
+        [self.actionMenu removeFromParentAndCleanup:YES];
+    }
+}
+
+#pragma mark - Shoot Bullet
+
+- (void)initBulletBathNode
+{
+    CCSpriteFrame* bulletFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"entity_3.png"];
+    self.bulletBatchNode = [CCSpriteBatchNode batchNodeWithTexture:bulletFrame.texture];
+    [self addChild:self.bulletBatchNode z:80];
+}
+
+- (void)shootAnimation:(CCSprite*)bullet
+{
+    CGPoint position = bullet.position;
+    
+    ccBezierConfig config;
+    config.controlPoint_1 = ccp(position.x + 40, position.y + 40);
+    config.controlPoint_2 = ccp(position.x + 60, position.y + 20);
+    config.endPosition = ccp(position.x + 70,-20);
+    CCBezierTo* bezierTo = [CCBezierTo actionWithDuration:1.0 bezier:config];
+    CCRotateBy* rotateBy = [CCRotateBy actionWithDuration:1.0 angle:180];
+    CCSpawn* spawn= [CCSpawn actions:bezierTo,rotateBy,nil];
+    [bullet runAction:spawn];
+}
+
+- (void)shoot
+{
+    if(self.panda.bulletCount > 0)
+    {
+        CCSprite* bullet = [CCSprite spriteWithSpriteFrameName:@"entity_3.png"];
+        CGPoint pandaPosition = [self.panda getPos];
+        bullet.position = ccp(pandaPosition.x + self.panda.contentSize.width/2.0,pandaPosition.y + 20.0);
+        [self.bulletBatchNode addChild:bullet];
+        
+        [self shootAnimation:bullet];
+        
+        self.panda.bulletCount--;
+    }
 }
 
 @end

@@ -50,6 +50,11 @@
 + (void)pauseBgSound;
 + (void)resumeBgSound;
 
+#pragma mark - Record
+
++ (int)getRecordByType:(int)type;
++ (void)setRecordByType:(int)type value:(int)value;
+
 #pragma mark - Core Data
 
 + (NSPersistentStoreCoordinator*)getPersistentStoreCoordinator;

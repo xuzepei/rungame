@@ -36,6 +36,7 @@
 @property(nonatomic,retain)RCScoreBar* scoreBar;
 @property(nonatomic,retain)CCMenu* actionMenu;
 @property(assign)int actionMenuType;
+@property(nonatomic,retain)CCSpriteBatchNode* bulletBatchNode;
 
 + (id)scene;
 + (RCGameScene*)sharedInstance;

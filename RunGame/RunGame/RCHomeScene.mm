@@ -61,7 +61,7 @@ static RCHomeScene* sharedInstance = nil;
 //        leftMenu.position = ccp(68, 202);
 //        [self addChild:leftMenu];
         
-        CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"start_button.png" selectedImage:@"start_button_selected.png" target:self selector:@selector(clickedMenuItem:)];
+        CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"start_button.png" selectedImage:nil target:self selector:@selector(clickedMenuItem:)];
         menuItem.tag = T_HOMEMENU_START;
         CCMenu* menu = [CCMenu menuWithItems:menuItem,nil];
         menu.position = ccp(WIN_SIZE.width/2.0, 100);

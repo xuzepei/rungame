@@ -62,6 +62,8 @@ typedef enum
 @property(assign)int distance; //移动距离
 @property(assign)float faintTime; //晕的时间
 
+@property(nonatomic,retain)CCSpriteBatchNode* bulletBatch;
+
 
 + (id)panda;
 - (BOOL)needCheckCollision;
@@ -88,6 +90,7 @@ typedef enum
 - (void)addSpringTime;
 - (void)addBulletCount;
 - (void)addFaintTime;
+- (void)dead;
 - (void)bomb;
 
 
