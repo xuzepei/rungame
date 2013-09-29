@@ -65,7 +65,10 @@
     if(self.panda)
     {
         CGPoint pandaPoint = ccp([self.panda getBody]->GetPosition().x*PTM_RATIO,[self.panda getBody]->GetPosition().y*PTM_RATIO);
-        CGFloat distance = ccpDistance(pandaPoint, self.position);
+        CGPoint position = self.position;
+        position.y += self.parent.position.y;
+        
+        CGFloat distance = ccpDistance(pandaPoint, position);
         if(distance <= self.panda.contentSize.width/2.0 + self.contentSize.width/2.0 - 6)
         {
             self.isCollided = YES;
@@ -85,7 +88,9 @@
     {
         for(CCSprite* bullet in [self.gameScene.bulletBatchNode children])
         {
-            CGFloat distance = ccpDistance(bullet.position, self.position);
+            CGPoint position = self.position;
+            position.y += self.parent.position.y;
+            CGFloat distance = ccpDistance(bullet.position, position);
             if(distance <= bullet.contentSize.width/2.0 + self.contentSize.width/2.0 - 6)
             {
                 [bullet setVisible:NO];

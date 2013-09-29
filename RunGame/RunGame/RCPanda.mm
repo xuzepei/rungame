@@ -549,8 +549,9 @@
 
 - (void)goToHell:(id)agrument
 {
-    [self getBody]->SetActive(true);
+    
     [self getFixture]->SetSensor(true);
+    [self getBody]->SetActive(true);
     
     //添加冲力
     b2Vec2 impulse = b2Vec2(0,-1);

@@ -82,7 +82,7 @@ typedef enum{
 }RECORD_TYPE;
 
 //背景滚动速度
-#define SCROLL_SPEED 7.0f
+#define SCROLL_SPEED 5.0f
 
 //增加倍数
 #define MULTIPLE 2

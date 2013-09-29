@@ -81,7 +81,7 @@ static RCGameScene* sharedInstance = nil;
         [RCTool playBgSound:MUSIC_BG];
         [RCTool preloadEffectSound:MUSIC_LAND];
         [RCTool preloadEffectSound:MUSIC_DEAD];
-
+        
     }
     
     return self;
@@ -90,6 +90,12 @@ static RCGameScene* sharedInstance = nil;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    if(self.longTouchTimer)
+    {
+        [self.longTouchTimer invalidate];
+        self.longTouchTimer = nil;
+    }
     
     if(_debugDraw)
     {
@@ -124,7 +130,7 @@ static RCGameScene* sharedInstance = nil;
     self.panda = nil;
     self.parallaxBg = nil;
     self.scoreBar = nil;
-    self.actionMenu = nil;
+    self.actionSprite = nil;
     sharedInstance = nil;
     
     [super dealloc];
@@ -168,44 +174,39 @@ static RCGameScene* sharedInstance = nil;
     [self addChild: menu z:50];
     
     CCSprite* bulletButtonSprite = [CCSprite spriteWithSpriteFrameName:@"bullet_button.png"];
-    menuItem = [CCMenuItemImage itemWithNormalSprite:bulletButtonSprite selectedSprite:nil target:self selector:@selector(clickedBulletButton:)];
-    menu = [CCMenu menuWithItems:menuItem, nil];
-    menu.position = ccp(winSize.width - 70, 60);
-    menu.tag = T_BULLET_BUTTON;
-    [self addChild: menu z:50];
+    bulletButtonSprite.position = ccp(winSize.width - 70, 60);
+    bulletButtonSprite.tag = T_BULLET_BUTTON;
+    [self addChild:bulletButtonSprite z:50];
     
-    CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
-    menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
-    self.actionMenu = [CCMenu menuWithItems:menuItem, nil];
-    self.actionMenu.position = ccp(70, 60);
-    [self addChild:self.actionMenu z:50];
+    self.actionSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
+    self.actionSprite.position = ccp(70, 60);
+    [self addChild:self.actionSprite z:50];
 }
 
-- (void)updateActionMenuImage:(int)type
+- (void)updateActionSpriteImage:(int)type
 {
-    if(type == self.actionMenuType)
+    if(type == self.actionSpriteType)
         return;
     
-    self.actionMenuType = type;
+    self.actionSpriteType = type;
     
-    CCMenuItemImage* menuItem = nil;
+    [self.actionSprite removeFromParentAndCleanup:YES];
+    
     if(0 == type)
     {
-        CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
-        menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
+        self.actionSprite = [CCSprite spriteWithSpriteFrameName:@"jump_button.png"];
+
+//        [self.actionSprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"jump_button.png"]];
     }
     else if(1 == type)
     {
-        CCSprite* actionButtonSprite = [CCSprite spriteWithSpriteFrameName:@"fly_button.png"];
-        menuItem = [CCMenuItemImage itemWithNormalSprite:actionButtonSprite selectedSprite:nil target:self selector:@selector(clickedActionButton:)];
+        self.actionSprite = [CCSprite spriteWithSpriteFrameName:@"fly_button.png"];
+//        [self.actionSprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"fly_button.png"]];
         
     }
     
-    [self.actionMenu removeFromParentAndCleanup:YES];
-    
-    self.actionMenu = [CCMenu menuWithItems:menuItem, nil];
-    self.actionMenu.position = ccp(70, 60);
-    [self addChild:self.actionMenu z:50];
+    self.actionSprite.position = ccp(70, 60);
+    [self addChild:self.actionSprite z:50];
 }
 
 - (void)clickedBackButton:(id)token
@@ -265,7 +266,7 @@ static RCGameScene* sharedInstance = nil;
 {
     CCLOG(@"clickedBulletButton");
     
-    [self clickedJumpButton];
+    //[self clickedJumpButton];
     
     [self shoot];
 }
@@ -347,9 +348,9 @@ static RCGameScene* sharedInstance = nil;
     
     //更新ActionMenuItem
     if(self.panda.jumpCount >= 2)
-        [self updateActionMenuImage:1];
+        [self updateActionSpriteImage:1];
     else
-        [self updateActionMenuImage:0];
+        [self updateActionSpriteImage:0];
     
     
     //移动道具
@@ -400,7 +401,7 @@ static RCGameScene* sharedInstance = nil;
         pandaY = flyY;
         flyY -= 10;
     }
-
+    
     
     //CCLOG(@"pandaY3:%f",pandaY);
     CGFloat cY = pandaY - pandaHeight - winSize.height/2.0f;
@@ -408,7 +409,7 @@ static RCGameScene* sharedInstance = nil;
     {
         cY = 0;
     }
-
+    
     [self.parallaxBg setPosition:ccp(self.parallaxBg.position.x,-cY)];
     
     //判断游戏结束
@@ -421,7 +422,7 @@ static RCGameScene* sharedInstance = nil;
         [self.panda dead];
         [self showResult:nil];
     }
-
+    
 }
 
 - (id)checkCollision
@@ -439,8 +440,8 @@ static RCGameScene* sharedInstance = nil;
                 b2Vec2 temp0 = [self.panda getBody]->GetPosition();
                 b2Vec2 temp1 = [terrace getBody]->GetPosition();
                 
-//                CCLOG(@"panda.y:%f,terrace.y:%f,ps:%f",temp0.y,temp1.y,temp1.y + [self.panda getBodySize].height/2.0 + [terrace getBodySize].height/2.0);
-//                CCLOG(@"isFlying1:%d",[self.panda isFlying]);
+                //                CCLOG(@"panda.y:%f,terrace.y:%f,ps:%f",temp0.y,temp1.y,temp1.y + [self.panda getBodySize].height/2.0 + [terrace getBodySize].height/2.0);
+                //                CCLOG(@"isFlying1:%d",[self.panda isFlying]);
                 
                 //减0.01的高度误差，用来判断on terrace
                 if(temp0.y >= temp1.y + [self.panda getBodySize].height/2.0 + [terrace getBodySize].height/2.0 - 0.01)
@@ -458,13 +459,13 @@ static RCGameScene* sharedInstance = nil;
         }
         
         if((contact.fixtureA == [self.panda getFixture] && contact.fixtureB == _groundFixture) ||
-            (contact.fixtureA == _groundFixture && contact.fixtureB == [self.panda getFixture]))
+           (contact.fixtureA == _groundFixture && contact.fixtureB == [self.panda getFixture]))
         {
             NSLog(@"Panda hit ground!");
             return nil;
         }
     }
-
+    
     return NULL;
 }
 
@@ -482,7 +483,7 @@ static RCGameScene* sharedInstance = nil;
     //碰撞监听
     _contactListener = new MyContactListener();
     _world->SetContactListener(_contactListener);
-
+    
 #ifdef DEBUG
     _debugDraw = new GLESDebugDraw(PTM_RATIO);
 	_world->SetDebugDraw(_debugDraw);
@@ -560,7 +561,7 @@ static RCGameScene* sharedInstance = nil;
     jointDef.Initialize(body, _groundBody,
                         body->GetWorldCenter(), worldAxis);
     _world->CreateJoint(&jointDef);
-
+    
     [self.panda setPhysicsBody:body];
 }
 
@@ -604,7 +605,7 @@ static RCGameScene* sharedInstance = nil;
         shapeDef.density = 10.0f;
         shapeDef.friction = 0.1f;
         shapeDef.restitution = 0.0f;
-        //shapeDef.isSensor =true; 
+        //shapeDef.isSensor =true;
         b2Fixture* fixture = body->CreateFixture(&shapeDef);
         [terrace setFixture:fixture];
         
@@ -622,7 +623,7 @@ static RCGameScene* sharedInstance = nil;
         
         [_terraceArray addObject:terrace];
     }
-
+    
 }
 
 #pragma mark - Add Entity
@@ -912,9 +913,30 @@ static RCGameScene* sharedInstance = nil;
 
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    //CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-   
-    [self clickedJumpButton];
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    
+    CCLOG(@"touchLocation:%@",NSStringFromCGPoint(touchLocation));
+    
+    CGRect bulletButtonRect = CGRectMake(WIN_SIZE.width - 90, 40, 40, 40);
+    CCLOG(@"bulletButtonRect:%@",NSStringFromCGRect(bulletButtonRect));
+    if(CGRectContainsPoint(bulletButtonRect, touchLocation))
+    {
+        [self clickedBulletButton:nil];
+    }
+
+    if(NO == [self.panda isFlying])
+        [self clickedJumpButton];
+    else{
+        
+        CCLOG(@"long touch begin,state:%d",self.panda.state);
+
+        if(nil == self.longTouchTimer)
+        {
+            self.longTouchTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(longTouchTimer:) userInfo:self repeats:YES];
+            [self.longTouchTimer fire];
+        }
+    }
+    
     
     return YES;
 }
@@ -925,6 +947,20 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
+    CCLOG(@"long touch end,state:%d",self.panda.state);
+    if(self.longTouchTimer)
+    {
+        [self.longTouchTimer invalidate];
+        self.longTouchTimer = nil;
+    }
+}
+
+- (void)longTouchTimer:(NSTimer*)timer
+{
+    if([self.panda isFlying])
+    {
+        [self clickedJumpButton];
+    }
 }
 
 #pragma mark - GameOver
@@ -952,7 +988,7 @@ static RCGameScene* sharedInstance = nil;
         [self addChild:resultLayer z:100];
         
         [self removeChildByTag:T_BULLET_BUTTON cleanup:YES];
-        [self.actionMenu removeFromParentAndCleanup:YES];
+        [self.actionSprite removeFromParentAndCleanup:YES];
     }
 }
 

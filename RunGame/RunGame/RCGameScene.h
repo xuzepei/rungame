@@ -34,9 +34,10 @@
 @property(assign)CGFloat entitySpeed;
 @property(nonatomic,retain)RCGameSceneParallaxBackground* parallaxBg;
 @property(nonatomic,retain)RCScoreBar* scoreBar;
-@property(nonatomic,retain)CCMenu* actionMenu;
-@property(assign)int actionMenuType;
+@property(nonatomic,retain)CCSprite* actionSprite;
+@property(assign)int actionSpriteType;
 @property(nonatomic,retain)CCSpriteBatchNode* bulletBatchNode;
+@property(nonatomic,retain)NSTimer* longTouchTimer;
 
 + (id)scene;
 + (RCGameScene*)sharedInstance;

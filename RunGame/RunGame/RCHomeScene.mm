@@ -13,6 +13,7 @@
 #import "RCNavigationController.h"
 #import "RCAchievementViewController.h"
 #import "RCAboutViewController.h"
+#import "RCGameSceneParallaxBackground.h"
 
 
 static RCHomeScene* sharedInstance = nil;
@@ -42,11 +43,15 @@ static RCHomeScene* sharedInstance = nil;
         
         [RCTool addCacheFrame:@"home_scene_images.plist"];
         
+        [RCTool addCacheFrame:@"game_scene_images.plist"];
+        
+        [self initParallaxBackground];
+        
         //设置背景
-        CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"home_bg.png"];
-        CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
-        bgSprite.position = ccp(winSize.width/2.0, winSize.height/2.0);
-        [self addChild:bgSprite];
+//        CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"home_bg.png"];
+//        CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
+//        bgSprite.position = ccp(winSize.width/2.0, winSize.height/2.0);
+//        [self addChild:bgSprite];
         
         
         //设置菜单
@@ -65,7 +70,7 @@ static RCHomeScene* sharedInstance = nil;
         menuItem.tag = T_HOMEMENU_START;
         CCMenu* menu = [CCMenu menuWithItems:menuItem,nil];
         menu.position = ccp(WIN_SIZE.width/2.0, 100);
-        [self addChild:menu];
+        [self addChild:menu z:10];
 
 //        CCMenuItem* menuItem3 = [CCMenuItemImage itemWithNormalImage:@"home_menu_about.png" selectedImage:@"home_menu_about_selected.png" target:self selector:@selector(clickedMenuItem:)];
 //        menuItem3.tag = T_HOMEMENU_ABOUT;
@@ -163,6 +168,14 @@ static RCHomeScene* sharedInstance = nil;
 - (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController
 {
 	[[RCTool getRootNavigationController] dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - Parallax Background
+
+- (void)initParallaxBackground
+{
+    RCGameSceneParallaxBackground* parallaxBg = [RCGameSceneParallaxBackground node];
+    [self addChild:parallaxBg z:1];
 }
 
 @end
