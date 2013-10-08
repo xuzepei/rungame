@@ -79,8 +79,12 @@
 {
     if(nil == _tableView)
     {
+        CGFloat height = [RCTool getScreenSize].width - NAVIGATION_BAR_HEIGHT;
+        if([RCTool systemVersion] >= 7.0)
+            height = [RCTool getScreenSize].width;
+        
         //init table view
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,[RCTool getScreenSize].height,[RCTool getScreenSize].width - NAVIGATION_BAR_HEIGHT)
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0,[RCTool getScreenSize].height,height)
                                                   style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -93,7 +97,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 // Customize the number of rows in the table view.
@@ -102,8 +106,6 @@
     if(0 == section)
         return 2;
     else if(1 == section)
-        return 2;
-    else if(2 == section)
         return 2;
     
     return 0;
@@ -122,10 +124,6 @@
     }
     else if(1 == section)
     {
-        return @"分享";
-    }
-    else if(2 == section)
-    {
         return @"其他";
     }
     
@@ -134,7 +132,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if(2 == section)
+    if(1 == section)
         return 40.0;
     
     return 0;
@@ -189,42 +187,6 @@
     {
         if(0 == indexPath.row)
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:cellId2];
-            if (cell == nil)
-            {
-                cell = [[[RCBindCell alloc] initWithStyle: UITableViewCellStyleSubtitle
-                                          reuseIdentifier: cellId2] autorelease];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.textLabel.text = @"新浪微博";
-            }
-            
-            RCBindCell* temp = (RCBindCell*)cell;
-            temp.delegate = self;
-            [temp updateContent:SHT_SINA];
-            
-        }
-        else if(1 == indexPath.row)
-        {
-            cell = [tableView dequeueReusableCellWithIdentifier:cellId3];
-            if (cell == nil)
-            {
-                cell = [[[RCBindCell alloc] initWithStyle: UITableViewCellStyleSubtitle
-                                          reuseIdentifier: cellId3] autorelease];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.textLabel.text = @"腾讯微博";
-            }
-            
-            RCBindCell* temp = (RCBindCell*)cell;
-            temp.delegate = self;
-            [temp updateContent:SHT_QQ];
-        }
-    }
-    else if(2 == indexPath.section)
-    {
-        if(0 == indexPath.row)
-        {
             cell = [tableView dequeueReusableCellWithIdentifier:cellId4];
             if (cell == nil)
             {
@@ -256,7 +218,7 @@
 	
 	[tableView deselectRowAtIndexPath: indexPath animated: YES];
     
-    if(2 == indexPath.section)
+    if(1 == indexPath.section)
     {
         if(0 == indexPath.row)
         {
@@ -329,22 +291,17 @@
             MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 //            mailComposeViewController.navigationBar.tintColor = NAVIGATION_BAR_COLOR;
             mailComposeViewController.mailComposeDelegate = self;
-            
-            
-            NSMutableString* subject = [[[NSMutableString alloc] init] autorelease];
-            [subject appendString:@"来自补兵达人的意见反馈 "];
-            NSString* version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-            [subject appendFormat:@"版本号:%@",version];
-            [subject appendFormat:@",系统:iOS %.2f",[RCTool systemVersion]];
-            
-            [subject appendFormat:@",设备类型:%d",UI_USER_INTERFACE_IDIOM()];
-            
-            [mailComposeViewController setSubject:subject];
+            [mailComposeViewController setSubject:@"意见反馈"];
             
             [mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"master@rumtel.com"]];
             
             NSMutableString *mailContent = [[NSMutableString alloc] init];
-            [mailContent appendString:@"如果您有什么问题或意见，请让我们知道。我们会尽快给您答复。"];
+            [mailContent appendString:@"如果您有什么问题或意见，请让我们知道。我们会尽快给您答复。\n\n\n\n\n\n\n\n"];
+            
+            //NSLog(@"%@",[[NSBundle mainBundle] infoDictionary]);
+            [mailContent appendFormat:@"名称：%@\n",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]];
+            [mailContent appendFormat:@"版本：%@\n",[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
+            [mailContent appendFormat:@"系统：iOS %.2f\n",[RCTool systemVersion]];
             
             [mailComposeViewController setMessageBody:mailContent isHTML:NO];
             [mailContent release];

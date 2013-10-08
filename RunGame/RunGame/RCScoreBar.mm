@@ -101,7 +101,7 @@
 
 - (void)updateShieldCount
 {
-    [self.label0 setString:[NSString stringWithFormat:@"%d", 0]];
+    [self.label0 setString:[NSString stringWithFormat:@"%d", [RCTool getRecordByType:RT_SHIELD]]];
 }
 
 - (void)updateBulletCount
@@ -112,7 +112,7 @@
 
 - (void)updateMilkCount
 {
-    [self.label2 setString:[NSString stringWithFormat:@"%d", 0]];
+    [self.label2 setString:[NSString stringWithFormat:@"%d",[RCTool getRecordByType:RT_MILK]]];
 }
 
 - (void)updateMoney

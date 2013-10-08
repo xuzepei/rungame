@@ -30,7 +30,7 @@
         self.rollImpulse = 18.0;
         self.flyImpulse = 20.0;
         self.money = [RCTool getRecordByType:RT_MONEY];
-        self.bulletCount = 200;
+        self.bulletCount = [RCTool getRecordByType:RT_BULLET];
         
         //self.speedUpCount = 1;
         self.spValue = DEFAULT_SP_VALUE;
@@ -41,7 +41,7 @@
         
         NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",nil];
         NSString* frameName = [NSString stringWithFormat:@"walk_"];
-        self.walkAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
+        self.walkAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.05];
         
         frameName = [NSString stringWithFormat:@"jump_"];
         self.jumpAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.1];
@@ -109,7 +109,23 @@
     
     //减气力
     if([self isFlying])
-        self.spValue = MAX(0,self.spValue - 0.5);
+    {
+        CGFloat spValue = self.spValue - 1;
+        if(spValue < 0)
+        {
+            int milkCount = [RCTool getRecordByType:RT_MILK];
+            if(milkCount > 0)
+            {
+                milkCount--;
+                [RCTool setRecordByType:RT_MILK value:milkCount];
+                spValue = DEFAULT_SP_VALUE/2.0;
+            }
+        }
+        else
+            spValue = self.spValue - 0.5;
+        
+        self.spValue = MAX(0,spValue);
+    }
     else
         self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue + 0.5);
     
@@ -508,6 +524,8 @@
 {
     [self playBubbleAnimation];
     self.bulletCount++;
+    
+    [RCTool setRecordByType:RT_BULLET value:self.bulletCount];
 }
 
 - (void)addFaintTime

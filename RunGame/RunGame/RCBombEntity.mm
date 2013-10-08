@@ -48,6 +48,15 @@
 {
     if([self checkCollision])
     {
+        int shieldCount = [RCTool getRecordByType:RT_SHIELD];
+        if(shieldCount > 0)
+        {
+            shieldCount--;
+            [RCTool setRecordByType:RT_SHIELD value:shieldCount];
+            [self setVisible:NO];
+            return;
+        }
+        
         [RCTool playEffectSound:MUSIC_BOMB];
         
         CCAnimation* bomb_cloud = [CCAnimation animationWithFile:@"bomb_cloud.png" itemSize:CGSizeMake(108/2.0, 95/2.0) delay:0.1];

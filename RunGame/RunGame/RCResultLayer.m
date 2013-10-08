@@ -127,13 +127,11 @@
 
 - (void)clickedShopButton:(id)sender
 {
-//    if(self.delegate && [self.delegate respondsToSelector:@selector(clickedRestartButton:)])
-//    {
-//        [self.delegate clickedRestartButton:nil];
-//        [self removeFromParentAndCleanup:YES];
-//    }
+    if(self.delegate && [self.delegate respondsToSelector:@selector(clickedShopButton:)])
+    {
+        [self.delegate clickedShopButton:nil];
+        [self removeFromParentAndCleanup:YES];
+    }
 }
-
-
 
 @end

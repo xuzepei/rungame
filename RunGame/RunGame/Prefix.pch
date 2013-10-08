@@ -48,6 +48,7 @@ typedef enum{
     T_HOMEMENU_SETTING,
     T_PAUSE_LAYER,
     T_BULLET_BUTTON,
+    T_PAUSE_BUTTON,
 }TAG;
 
 //滑块类型
@@ -82,7 +83,7 @@ typedef enum{
 }RECORD_TYPE;
 
 //背景滚动速度
-#define SCROLL_SPEED 5.0f
+#define SCROLL_SPEED 5.5f
 
 //增加倍数
 #define MULTIPLE 2

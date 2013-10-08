@@ -226,7 +226,7 @@
     if(value)
         return [value floatValue];
     
-    return 1.0;
+    return 0.5;
 }
 
 + (void)setEffectVolume:(CGFloat)volume

@@ -14,6 +14,7 @@
 #import "RCAchievementViewController.h"
 #import "RCAboutViewController.h"
 #import "RCGameSceneParallaxBackground.h"
+#import "RCStoreLayer.h"
 
 
 static RCHomeScene* sharedInstance = nil;
@@ -48,39 +49,12 @@ static RCHomeScene* sharedInstance = nil;
         [self initParallaxBackground];
         
         //设置背景
-//        CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"home_bg.png"];
-//        CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
-//        bgSprite.position = ccp(winSize.width/2.0, winSize.height/2.0);
-//        [self addChild:bgSprite];
+        CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"home_bg.png"];
+        self.bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
+        self.bgSprite.position = ccp(winSize.width/2.0, winSize.height/2.0 + 70);
+        [self addChild:self.bgSprite z:2];
         
-        
-        //设置菜单
-//        CCMenuItemImage* menuItem0 = [CCMenuItemImage itemWithNormalImage:@"achievement_button.png" selectedImage:@"achievement_button_selected.png" target:self selector:@selector(clickedMenuItem:)];
-//        menuItem0.tag = T_HOMEMENU_ACHIEVEMENT;
-//        
-//        CCMenuItemImage* menuItem1 = [CCMenuItemImage itemWithNormalImage:@"leaderboard_button.png" selectedImage:@"leaderboard_button_selected.png" target:self selector:@selector(clickedMenuItem:)];
-//        menuItem1.tag = T_HOMEMENU_LEADERBOARD;
-//        
-//        CCMenu* leftMenu = [CCMenu menuWithItems:menuItem0,menuItem1,nil];
-//        [leftMenu alignItemsVerticallyWithPadding:10.0];
-//        leftMenu.position = ccp(68, 202);
-//        [self addChild:leftMenu];
-        
-        CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"start_button.png" selectedImage:nil target:self selector:@selector(clickedMenuItem:)];
-        menuItem.tag = T_HOMEMENU_START;
-        CCMenu* menu = [CCMenu menuWithItems:menuItem,nil];
-        menu.position = ccp(WIN_SIZE.width/2.0, 100);
-        [self addChild:menu z:10];
-
-//        CCMenuItem* menuItem3 = [CCMenuItemImage itemWithNormalImage:@"home_menu_about.png" selectedImage:@"home_menu_about_selected.png" target:self selector:@selector(clickedMenuItem:)];
-//        menuItem3.tag = T_HOMEMENU_ABOUT;
-//        
-//        CCMenuItem* menuItem4 = [CCMenuItemImage itemWithNormalImage:@"home_menu_setting.png" selectedImage:@"home_menu_setting_selected.png" target:self selector:@selector(clickedMenuItem:)];
-//        menuItem4.tag = T_HOMEMENU_SETTING;
-        
-//        CCMenu* menu = [CCMenu menuWithItems:menuItem2,nil];
-//        rightMenu.position = ccp(170, 30);
-//        [self addChild:rightMenu];
+        [self initButtons];
 
     }
     
@@ -89,66 +63,120 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)dealloc
 {
-    [RCTool removeCacheFrame:@"home_scene_images.plist"];
+    //[RCTool removeCacheFrame:@"home_scene_images.plist"];
+    
+    self.bgSprite = nil;
+    self.playButton = nil;
+    self.aboutButton = nil;
+    self.achievementButton = nil;
+    self.leaderboardButton = nil;
+    self.shopButton = nil;
+    self.settingsButton = nil;
     
     sharedInstance = nil;
     [super dealloc];
 }
 
-- (void)clickedMenuItem:(id)sender
+- (void)initButtons
+{
+    CGSize winSize = WIN_SIZE;
+    
+    CCMenuItem* menuItem = [CCMenuItemImage itemWithNormalImage:@"start_button.png" selectedImage:nil target:self selector:@selector(clickedPlayButton:)];
+    menuItem.tag = T_HOMEMENU_START;
+    self.playButton = [CCMenu menuWithItems:menuItem,nil];
+    self.playButton.position = ccp(winSize.width/2.0, 100);
+    [self addChild:self.playButton z:10];
+    
+    CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:@"intro_button.png"];
+    menuItem = [CCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedIntroButton:)];
+    self.aboutButton = [CCMenu menuWithItems:menuItem,nil];
+    self.aboutButton.position = ccp(40, 30);
+    [self addChild:self.aboutButton z:10];
+    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"achievement_button.png"];
+    menuItem = [CCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedAchievementButton:)];
+    self.achievementButton = [CCMenu menuWithItems:menuItem,nil];
+    self.achievementButton.position = ccp(90, 30);
+    [self addChild:self.achievementButton z:10];
+    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"rank_button.png"];
+    menuItem = [CCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedRankButton:)];
+    self.leaderboardButton = [CCMenu menuWithItems:menuItem,nil];
+    self.leaderboardButton.position = ccp(winSize.width - 140, 30);
+    [self addChild:self.leaderboardButton z:10];
+    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"shop_button.png"];
+    menuItem = [CCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedShopButton:)];
+    self.shopButton = [CCMenu menuWithItems:menuItem,nil];
+    self.shopButton.position = ccp(winSize.width - 90, 30);
+    [self addChild:self.shopButton z:10];
+    
+    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"settings_button.png"];
+    menuItem = [CCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedSettingButton:)];
+    self.settingsButton = [CCMenu menuWithItems:menuItem,nil];
+    self.settingsButton.position = ccp(winSize.width - 40, 30);
+    [self addChild:self.settingsButton z:10];
+}
+
+
+- (void)clickedPlayButton:(id)sender
 {
     [RCTool playEffectSound:MUSIC_CLICK];
     
-    CCMenuItem* menuItem = (CCMenuItem*)sender;
-    CCLOG(@"%d",menuItem.tag);
-    switch (menuItem.tag)
-    {
-        case T_HOMEMENU_START:
-        {
-            CCScene* scene = [RCGameScene scene];
-            [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:scene withColor:ccWHITE]];
-            break;
-        }
-        case T_HOMEMENU_LEADERBOARD:
-        {
-            [self showLeaderboard];
-            break;
-        }
-        case T_HOMEMENU_ACHIEVEMENT:
-        {
-            RCAchievementViewController* temp = [[RCAchievementViewController alloc] initWithNibName:nil bundle:nil];
-            [temp updateContent];
-            [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-            [temp release];
-            
-            [DIRECTOR pause];
-            
-            break;
-        }
-        case T_HOMEMENU_ABOUT:
-        {
-            RCAboutViewController* temp = [[RCAboutViewController alloc] initWithNibName:nil bundle:nil];
-            [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-            [temp release];
-            
-            [DIRECTOR pause];
-            
-            break;
-        }
-        case T_HOMEMENU_SETTING:
-        {
-            RCSettingsViewController* temp = [[RCSettingsViewController alloc] initWithNibName:nil bundle:nil];
-            
-            [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-             [temp release];
-            [DIRECTOR pause];
-             
-            break;
-        }
-            
-        default:
-            break;
-    }
+    CCScene* scene = [RCGameScene scene];
+    [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:0.0 scene:scene withColor:ccWHITE]];
+}
+
+- (void)clickedIntroButton:(id)sender
+{
+//    RCAboutViewController* temp = [[RCAboutViewController alloc] initWithNibName:nil bundle:nil];
+//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
+//    [temp release];
+//    
+//    [DIRECTOR pause];
+}
+
+- (void)clickedAchievementButton:(id)sender
+{
+//    RCAchievementViewController* temp = [[RCAchievementViewController alloc] initWithNibName:nil bundle:nil];
+//    [temp updateContent];
+//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
+//    [temp release];
+//    
+//    [DIRECTOR pause];
+}
+
+- (void)clickedRankButton:(id)sender
+{
+//    RCAchievementViewController* temp = [[RCAchievementViewController alloc] initWithNibName:nil bundle:nil];
+//    [temp updateContent];
+//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
+//    [temp release];
+//    
+//    [DIRECTOR pause];
+}
+
+- (void)clickedShopButton:(id)sender
+{
+    [self showAllButton:NO];
+    
+    RCStoreLayer* layer = [[[RCStoreLayer alloc] init] autorelease];
+    layer.delegate = self;
+    [self addChild:layer z:100];
+}
+
+- (void)clickedHelpButton:(id)sender
+{
+}
+
+- (void)clickedSettingButton:(id)sender
+{
+    RCSettingsViewController* temp = [[RCSettingsViewController alloc] initWithNibName:nil bundle:nil];
+    
+    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
+    [temp release];
+    [DIRECTOR pause];
 }
 
 #pragma mark - GameCenter
@@ -176,6 +204,25 @@ static RCHomeScene* sharedInstance = nil;
 {
     RCGameSceneParallaxBackground* parallaxBg = [RCGameSceneParallaxBackground node];
     [self addChild:parallaxBg z:1];
+}
+
+
+#pragma mark - Store
+
+- (void)showAllButton:(BOOL)b
+{
+    [self.bgSprite setVisible:b];
+    [self.playButton setVisible:b];
+    [self.aboutButton setVisible:b];
+    [self.achievementButton setVisible:b];
+    [self.leaderboardButton setVisible:b];
+    [self.shopButton setVisible:b];
+    [self.settingsButton setVisible:b];
+}
+
+- (void)clickedStoreBackButton:(id)sender
+{
+    [self showAllButton:YES];
 }
 
 @end

@@ -4,16 +4,133 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>home_bg.png</key>
+            <key>achievement_button.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{1136,640}}</string>
+                <string>{{926,126},{60,70}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{1136,640}}</string>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>bamboo.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{912,312},{41,47}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{41,47}}</string>
+                <key>sourceSize</key>
+                <string>{41,47}</string>
+            </dict>
+            <key>clicked_button_effect.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{840,2},{263,84}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{263,84}}</string>
+                <key>sourceSize</key>
+                <string>{263,84}</string>
+            </dict>
+            <key>help_button.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{926,250},{60,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>home_bg.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,462},{827,250}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{827,250}}</string>
+                <key>sourceSize</key>
+                <string>{827,250}</string>
+            </dict>
+            <key>intro_button.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{926,188},{60,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>rank_button.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{926,64},{60,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>settings_button.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{840,267},{60,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>shop_button.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{926,2},{60,70}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{60,70}}</string>
+                <key>sourceSize</key>
+                <string>{60,70}</string>
+            </dict>
+            <key>store_bg.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{836,458}}</string>
+                <key>offset</key>
+                <string>{3,27}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{153,64},{836,458}}</string>
                 <key>sourceSize</key>
                 <string>{1136,640}</string>
             </dict>
@@ -25,9 +142,9 @@
             <key>realTextureFileName</key>
             <string>home_scene_images.png</string>
             <key>size</key>
-            <string>{1024,2048}</string>
+            <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:206f872c6cf43d3c2a32a3520724c72d$</string>
+            <string>$TexturePacker:SmartUpdate:048723e960ee793e61b3f6733f67fd73$</string>
             <key>textureFileName</key>
             <string>home_scene_images.png</string>
         </dict>

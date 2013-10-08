@@ -20,6 +20,7 @@
 #import "RCMoneyEntity.h"
 #import "RCPauseLayer.h"
 #import "RCResultLayer.h"
+#import "RCStoreLayer.h"
 
 
 #define TERRACE_NUM 6
@@ -76,7 +77,7 @@ static RCGameScene* sharedInstance = nil;
         
         [self schedule:@selector(tick:)];
         
-        [self schedule:@selector(addEntityForTimes:) interval:0.5f];
+        [self schedule:@selector(addEntityForTimes:) interval:1.0f];
         
         [RCTool playBgSound:MUSIC_BG];
         [RCTool preloadEffectSound:MUSIC_LAND];
@@ -171,6 +172,7 @@ static RCGameScene* sharedInstance = nil;
     CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
     menu.anchorPoint = ccp(0,1);
     menu.position = ccp(30, winSize.height - 24);
+    menu.tag = T_PAUSE_BUTTON;
     [self addChild: menu z:50];
     
     CCSprite* bulletButtonSprite = [CCSprite spriteWithSpriteFrameName:@"bullet_button.png"];
@@ -278,7 +280,40 @@ static RCGameScene* sharedInstance = nil;
     [self clickedJumpButton];
 }
 
+- (void)clickedShopButton:(id)sender
+{
+    //清理Terraces
+    for(RCTerrace* terrace in _terraceArray)
+    {
+        [terrace removeFromParentAndCleanup:NO];
+    }
+    [_terraceArray removeAllObjects];
+    
+    //清理Entity
+    for(CCSprite* entity in _entityArray)
+    {
+        [entity removeFromParentAndCleanup:NO];
+    }
+    [_entityArray removeAllObjects];
 
+    RCStoreLayer* layer = [[[RCStoreLayer alloc] init] autorelease];
+    layer.delegate = self;
+    [self addChild:layer z:100];
+}
+
+- (void)clickedStoreBackButton:(id)sender
+{
+    [self.panda setPos:ccp(100,200)];
+    [self.panda setVisible:NO];
+    [self.panda getBody]->SetActive(false);
+    
+    if([DIRECTOR isPaused])
+        [DIRECTOR resume];
+    
+    //[RCTool removeCacheFrame:@"game_scene_images.plist"];
+    CCScene* scene = [RCHomeScene scene];
+    [DIRECTOR replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:scene withColor:ccWHITE]];
+}
 
 #pragma mark - Box2D
 
@@ -856,9 +891,23 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)addEntityForTimes:(ccTime)delta
 {
-    int array[] = {0,0,0,0,0,1,1,1,1,2,3,3,3,3,3,4,4,4,4,4,4,4,4,5,6,7};
+//    //道具类型
+//    typedef enum{
+//        ET_UNKNOWN = -1,
+//        ET_SPEEDUP, //加速
+//        ET_SPUP, //加体力
+//        ET_SPDOWN, //减体力
+//        ET_BULLET, //子弹
+//        ET_MONEY, //钱
+//        ET_SPRING, //弹簧
+//        ET_SNAKE, //蛇
+//        ET_BOMB, //炸弹
+//    }ENTITY_TYPE;
+    
+    int array[] = {0,0,1,1,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,6,6,7};
     
     int size = sizeof(array)/sizeof(int);
+    
     //随机排序数组
     for (NSUInteger i = 0; i < size; ++i) {
         // Select a random element between i and end of array to swap with.
@@ -987,6 +1036,8 @@ static RCGameScene* sharedInstance = nil;
         [resultLayer updateContent:self.panda.distance];
         [self addChild:resultLayer z:100];
         
+        [self.scoreBar removeFromParentAndCleanup:YES];
+        [self removeChildByTag:T_PAUSE_BUTTON cleanup:YES];
         [self removeChildByTag:T_BULLET_BUTTON cleanup:YES];
         [self.actionSprite removeFromParentAndCleanup:YES];
     }
@@ -1027,6 +1078,8 @@ static RCGameScene* sharedInstance = nil;
         [self shootAnimation:bullet];
         
         self.panda.bulletCount--;
+        
+        [RCTool setRecordByType:RT_BULLET value:self.panda.bulletCount];
     }
 }
 
