@@ -368,6 +368,8 @@
         default:
             break;
     }
+    
+    return 0;
 }
 
 + (void)setRecordByType:(int)type value:(int)value
@@ -375,6 +377,138 @@
     NSString* key = [NSString stringWithFormat:@"RT_%d",type];
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:[NSNumber numberWithInt:value] forKey:key];
+    [defaults synchronize];
+}
+
+#pragma mark - Achievement
+
++ (BOOL)checkAchievementByType:(int)type
+{
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSString* key = [NSString stringWithFormat:@"AT_%d",type];
+    int value = [[defaults objectForKey:key] intValue];
+    switch (type) {
+        case AT_ESCAPE:
+        {
+            if(value)
+                return YES;
+            
+            break;
+        }
+        case AT_SHOOTER:
+        {
+            if(value > 30)
+                return YES;
+            
+            break;
+        }
+        case AT_MARATHON:
+        {
+            value = [RCTool getRecordByType:RT_DISTANCE];
+            if(value > 42195)
+                return YES;
+            
+            break;
+        }
+        case AT_CAKE:
+        {
+            if(value > 2000)
+                return YES;
+            
+            break;
+        }
+        case AT_KUNGFU:
+        {
+            if(value > 300)
+                return YES;
+            
+            break;
+        }
+        case AT_MILLIONAIRE:
+        {
+            if(value >= 50000)
+                return YES;
+            else
+            {
+                value = [RCTool getRecordByType:RT_MONEY];
+                if(value >= 20000)
+                    return YES;
+            }
+            
+            break;
+        }
+        default:
+            break;
+    }
+    
+    return NO;
+}
+
++ (void)setAchievementByType:(int)type value:(int)value
+{
+    NSString* key = [NSString stringWithFormat:@"AT_%d",type];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    int temp = [[defaults objectForKey:key] intValue];
+    switch (type) {
+        case AT_ESCAPE:
+        {
+            temp = value;
+            break;
+        }
+        case AT_SHOOTER:
+        {
+            if(temp <= 30)
+            {
+                temp += value;
+            }
+            
+            break;
+        }
+        case AT_MARATHON:
+        {
+            break;
+        }
+        case AT_CAKE:
+        {
+            if(temp <= 2000)
+            {
+                if(-1 == value)
+                {
+                    temp = 0;
+                }
+                else
+                    temp = value;
+            }
+            break;
+        }
+        case AT_KUNGFU:
+        {
+            if(temp <= 300)
+            {
+                if(-1 == value)
+                {
+                    temp = 0;
+                }
+                else
+                    temp += value;
+            }
+            
+            break;
+        }
+        case AT_MILLIONAIRE:
+        {
+            if(temp <= 50000)
+            {
+                temp += value;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
+    [defaults setObject:[NSNumber numberWithInt:temp] forKey:key];
     [defaults synchronize];
 }
 

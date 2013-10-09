@@ -21,6 +21,7 @@
 #import "RCPauseLayer.h"
 #import "RCResultLayer.h"
 #import "RCStoreLayer.h"
+#import "RCEntity.h"
 
 
 #define TERRACE_NUM 6
@@ -447,10 +448,36 @@ static RCGameScene* sharedInstance = nil;
     
     [self.parallaxBg setPosition:ccp(self.parallaxBg.position.x,-cY)];
     
+    //移动平台
+    for(RCTerrace* terrace in _terraceArray)
+    {
+        CGPoint position = terrace.position;
+        [terrace setBodyPos:ccp(position.x,terrace.originalY-cY)];
+    }
+    
+    //移动道具
+    for(RCEntity* entity in _entityArray)
+    {
+        CGPoint position = entity.position;
+        entity.position = ccp(position.x,entity.originalY-cY);
+    }
+    
     //判断游戏结束
     pandaY = [self.panda getBody]->GetPosition().y * PTM_RATIO;
-    if(pandaY < -self.panda.contentSize.height/2.0)
+    
+    
+    static BOOL willDead = NO;
+    if(willDead && pandaY > 100)
+        [RCTool setAchievementByType:AT_ESCAPE value:1];
+        
+    if(pandaY <= 0 && pandaY > -self.panda.contentSize.height/2.0)
     {
+        willDead = YES;
+    }
+    else if(pandaY < -self.panda.contentSize.height/2.0)
+    {
+        willDead = NO;
+        
         if(NO == self.panda.isDeaded)
             [RCTool playEffectSound:MUSIC_DEAD];
         
@@ -622,6 +649,7 @@ static RCGameScene* sharedInstance = nil;
         offset_x += random2;
         
         terrace.position = ccp(offset_x,offset_y + random);
+        terrace.originalY = terrace.position.y;
         [self.parallaxBg addChild:terrace z:10];
         
         //创建球的body
@@ -684,11 +712,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCSpeedUpEntity* entity = [RCSpeedUpEntity entity:ET_SPEEDUP];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
@@ -712,11 +742,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCSPUpEntity* entity = [RCSPUpEntity entity:ET_SPUP];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
@@ -739,11 +771,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCSPDownEntity* entity = [RCSPDownEntity entity:ET_SPDOWN];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];
@@ -767,11 +801,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCBulletEntity* entity = [RCBulletEntity entity:ET_BULLET];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
@@ -794,11 +830,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCMoneyEntity* entity = [RCMoneyEntity entity:ET_MONEY];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
@@ -821,11 +859,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCSpringEntity* entity = [RCSpringEntity entity:ET_SPRING];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             [self.parallaxBg addChild:entity z:10];
             [_entityArray addObject:entity];
@@ -848,11 +888,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = position.x - terrace.contentSize.width/2.0 + arc4random()%(int)(terrace.contentSize.width - 20);
             offset_y = position.y + terrace.contentSize.height/2.0 + 14;
             
             RCSnakeEntity* entity = [RCSnakeEntity entity:ET_SNAKE];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];
@@ -876,11 +918,13 @@ static RCGameScene* sharedInstance = nil;
         if(terrace)
         {
             CGPoint position = [terrace getPos];
+            position.y = terrace.originalY;
             offset_x = winSize.width;
             offset_y += position.y + terrace.contentSize.height/2.0;
             
             RCBombEntity* entity = [RCBombEntity entity:ET_BOMB];
             entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
             entity.panda = self.panda;
             entity.gameScene = self;
             [self.parallaxBg addChild:entity z:10];

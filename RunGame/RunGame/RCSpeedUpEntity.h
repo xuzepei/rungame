@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "RCPanda.h"
+#import "RCEntity.h"
 
-@interface RCSpeedUpEntity : CCSprite {
+@interface RCSpeedUpEntity : RCEntity {
     
 }
 
 @property(assign)ENTITY_TYPE type;
 @property(assign)RCPanda* panda;
 @property(assign)BOOL isCollided;
+@property(assign)CGFloat originalY;
 
 + (id)entity:(ENTITY_TYPE)type;
 - (id)initWithType:(ENTITY_TYPE)type;

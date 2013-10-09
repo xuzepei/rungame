@@ -29,6 +29,8 @@
 		0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6017EACC8D00414B71 /* home_scene_images.plist */; };
 		0967BA6317EACC8D00414B71 /* home_scene_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6117EACC8D00414B71 /* home_scene_images.png */; };
 		0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */; };
+		0978EA361804FC1000A810FE /* RCEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA351804FC1000A810FE /* RCEntity.m */; };
+		0978EA391805016800A810FE /* RCAchievementLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA381805016800A810FE /* RCAchievementLayer.m */; };
 		097919721803A5C90013C6FC /* RCStoreLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 097919711803A5C90013C6FC /* RCStoreLayer.m */; };
 		097919741803EE050013C6FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097919731803EE050013C6FC /* Images.xcassets */; };
 		0980CB7617EFE7AF0001AD16 /* RCSPUpEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0980CB7517EFE7AF0001AD16 /* RCSPUpEntity.mm */; };
@@ -57,12 +59,6 @@
 		09FAE39617E2BCB500E46F76 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39517E2BCB500E46F76 /* fps_images.png */; };
 		09FAE39817E2BCB500E46F76 /* fps_images-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39717E2BCB500E46F76 /* fps_images-hd.png */; };
 		09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39917E2BCB500E46F76 /* fps_images-ipadhd.png */; };
-		09FAE39C17E2BCB500E46F76 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39B17E2BCB500E46F76 /* Icon-72.png */; };
-		09FAE39E17E2BCB500E46F76 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39D17E2BCB500E46F76 /* Icon-Small-50.png */; };
-		09FAE3A017E2BCB500E46F76 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39F17E2BCB500E46F76 /* Icon-Small.png */; };
-		09FAE3A217E2BCB500E46F76 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE3A117E2BCB500E46F76 /* Icon-Small@2x.png */; };
-		09FAE3A417E2BCB500E46F76 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE3A317E2BCB500E46F76 /* Icon.png */; };
-		09FAE3A617E2BCB500E46F76 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE3A517E2BCB500E46F76 /* Icon@2x.png */; };
 		09FAE3A917E2BCB500E46F76 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE3A817E2BCB500E46F76 /* iTunesArtwork */; };
 		09FAE3AE17E2BCB500E46F76 /* CCAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE3AD17E2BCB500E46F76 /* CCAction.m */; };
 		09FAE3B117E2BCB500E46F76 /* CCActionCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE3B017E2BCB500E46F76 /* CCActionCamera.m */; };
@@ -226,11 +222,6 @@
 		09FAE5D017E2EC3D00E46F76 /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C117E2EBE800E46F76 /* GameCenterManager.m */; };
 		09FAE5D117E2EC3D00E46F76 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C317E2EBE800E46F76 /* GCHelper.m */; };
 		09FAE5D217E2EC3D00E46F76 /* GKMatchmakerViewController+LandscapeOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C517E2EBE800E46F76 /* GKMatchmakerViewController+LandscapeOnly.m */; };
-		09FAE5D317E2EC3D00E46F76 /* Achievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C717E2EC0700E46F76 /* Achievement.m */; };
-		09FAE5D417E2EC3D00E46F76 /* RCAchievement.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C917E2EC0700E46F76 /* RCAchievement.m */; };
-		09FAE5D517E2EC3D00E46F76 /* RCAchievementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5CB17E2EC0700E46F76 /* RCAchievementViewController.m */; };
-		09FAE5D617E2EC3D00E46F76 /* RCAchievementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5CD17E2EC0700E46F76 /* RCAchievementCell.m */; };
-		09FAE5D717E2EC3D00E46F76 /* RCAchievementCellContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5CF17E2EC0700E46F76 /* RCAchievementCellContentView.m */; };
 		09FAE5E517E2ED4C00E46F76 /* RCSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5E217E2ED3E00E46F76 /* RCSliderCell.m */; };
 		09FAE5E617E2ED4C00E46F76 /* RCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5E417E2ED3E00E46F76 /* RCSettingsViewController.m */; };
 		09FAE5E917E2ED9800E46F76 /* RCBindCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5E817E2ED8200E46F76 /* RCBindCell.m */; };
@@ -338,6 +329,10 @@
 		0967BA6117EACC8D00414B71 /* home_scene_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home_scene_images.png; path = Resources/images/home_scene_images.png; sourceTree = "<group>"; };
 		0967BA6717EB4A7100414B71 /* RCBox2dMoveTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBox2dMoveTo.h; sourceTree = "<group>"; };
 		0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCBox2dMoveTo.mm; sourceTree = "<group>"; };
+		0978EA341804FC1000A810FE /* RCEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCEntity.h; sourceTree = "<group>"; };
+		0978EA351804FC1000A810FE /* RCEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCEntity.m; sourceTree = "<group>"; };
+		0978EA371805016800A810FE /* RCAchievementLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAchievementLayer.h; sourceTree = "<group>"; };
+		0978EA381805016800A810FE /* RCAchievementLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAchievementLayer.m; sourceTree = "<group>"; };
 		097919701803A5C90013C6FC /* RCStoreLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCStoreLayer.h; sourceTree = "<group>"; };
 		097919711803A5C90013C6FC /* RCStoreLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCStoreLayer.m; sourceTree = "<group>"; };
 		097919731803EE050013C6FC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -377,12 +372,6 @@
 		09FAE39517E2BCB500E46F76 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
 		09FAE39717E2BCB500E46F76 /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-hd.png"; path = "Resources/fps_images-hd.png"; sourceTree = "<group>"; };
 		09FAE39917E2BCB500E46F76 /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-ipadhd.png"; path = "Resources/fps_images-ipadhd.png"; sourceTree = "<group>"; };
-		09FAE39B17E2BCB500E46F76 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources/Icon-72.png"; sourceTree = "<group>"; };
-		09FAE39D17E2BCB500E46F76 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources/Icon-Small-50.png"; sourceTree = "<group>"; };
-		09FAE39F17E2BCB500E46F76 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Resources/Icon-Small.png"; sourceTree = "<group>"; };
-		09FAE3A117E2BCB500E46F76 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Resources/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		09FAE3A317E2BCB500E46F76 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		09FAE3A517E2BCB500E46F76 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		09FAE3A717E2BCB500E46F76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		09FAE3A817E2BCB500E46F76 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; name = iTunesArtwork; path = Resources/iTunesArtwork; sourceTree = "<group>"; };
 		09FAE3AC17E2BCB500E46F76 /* CCAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CCAction.h; path = libs/cocos2d/CCAction.h; sourceTree = "<group>"; };
@@ -736,16 +725,6 @@
 		09FAE5C317E2EBE800E46F76 /* GCHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCHelper.m; sourceTree = "<group>"; };
 		09FAE5C417E2EBE800E46F76 /* GKMatchmakerViewController+LandscapeOnly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GKMatchmakerViewController+LandscapeOnly.h"; sourceTree = "<group>"; };
 		09FAE5C517E2EBE800E46F76 /* GKMatchmakerViewController+LandscapeOnly.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GKMatchmakerViewController+LandscapeOnly.m"; sourceTree = "<group>"; };
-		09FAE5C617E2EC0700E46F76 /* Achievement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Achievement.h; sourceTree = "<group>"; };
-		09FAE5C717E2EC0700E46F76 /* Achievement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Achievement.m; sourceTree = "<group>"; };
-		09FAE5C817E2EC0700E46F76 /* RCAchievement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCAchievement.h; sourceTree = "<group>"; };
-		09FAE5C917E2EC0700E46F76 /* RCAchievement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCAchievement.m; sourceTree = "<group>"; };
-		09FAE5CA17E2EC0700E46F76 /* RCAchievementViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCAchievementViewController.h; sourceTree = "<group>"; };
-		09FAE5CB17E2EC0700E46F76 /* RCAchievementViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCAchievementViewController.m; sourceTree = "<group>"; };
-		09FAE5CC17E2EC0700E46F76 /* RCAchievementCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCAchievementCell.h; sourceTree = "<group>"; };
-		09FAE5CD17E2EC0700E46F76 /* RCAchievementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCAchievementCell.m; sourceTree = "<group>"; };
-		09FAE5CE17E2EC0700E46F76 /* RCAchievementCellContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCAchievementCellContentView.h; sourceTree = "<group>"; };
-		09FAE5CF17E2EC0700E46F76 /* RCAchievementCellContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCAchievementCellContentView.m; sourceTree = "<group>"; };
 		09FAE5E117E2ED3E00E46F76 /* RCSliderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSliderCell.h; sourceTree = "<group>"; };
 		09FAE5E217E2ED3E00E46F76 /* RCSliderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCSliderCell.m; sourceTree = "<group>"; };
 		09FAE5E317E2ED3E00E46F76 /* RCSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCSettingsViewController.h; sourceTree = "<group>"; };
@@ -1031,12 +1010,6 @@
 				09FAE39517E2BCB500E46F76 /* fps_images.png */,
 				09FAE39717E2BCB500E46F76 /* fps_images-hd.png */,
 				09FAE39917E2BCB500E46F76 /* fps_images-ipadhd.png */,
-				09FAE39B17E2BCB500E46F76 /* Icon-72.png */,
-				09FAE39D17E2BCB500E46F76 /* Icon-Small-50.png */,
-				09FAE39F17E2BCB500E46F76 /* Icon-Small.png */,
-				09FAE3A117E2BCB500E46F76 /* Icon-Small@2x.png */,
-				09FAE3A317E2BCB500E46F76 /* Icon.png */,
-				09FAE3A517E2BCB500E46F76 /* Icon@2x.png */,
 				09FAE6E417E30A0D00E46F76 /* audio */,
 				09FAE6E517E30A0D00E46F76 /* images */,
 				09FAE3A717E2BCB500E46F76 /* Info.plist */,
@@ -1555,26 +1528,8 @@
 				09FAE5C317E2EBE800E46F76 /* GCHelper.m */,
 				09FAE5C417E2EBE800E46F76 /* GKMatchmakerViewController+LandscapeOnly.h */,
 				09FAE5C517E2EBE800E46F76 /* GKMatchmakerViewController+LandscapeOnly.m */,
-				09FAE5BF17E2EBD000E46F76 /* Achievements */,
 			);
 			path = GameCenter;
-			sourceTree = "<group>";
-		};
-		09FAE5BF17E2EBD000E46F76 /* Achievements */ = {
-			isa = PBXGroup;
-			children = (
-				09FAE5C617E2EC0700E46F76 /* Achievement.h */,
-				09FAE5C717E2EC0700E46F76 /* Achievement.m */,
-				09FAE5C817E2EC0700E46F76 /* RCAchievement.h */,
-				09FAE5C917E2EC0700E46F76 /* RCAchievement.m */,
-				09FAE5CA17E2EC0700E46F76 /* RCAchievementViewController.h */,
-				09FAE5CB17E2EC0700E46F76 /* RCAchievementViewController.m */,
-				09FAE5CC17E2EC0700E46F76 /* RCAchievementCell.h */,
-				09FAE5CD17E2EC0700E46F76 /* RCAchievementCell.m */,
-				09FAE5CE17E2EC0700E46F76 /* RCAchievementCellContentView.h */,
-				09FAE5CF17E2EC0700E46F76 /* RCAchievementCellContentView.m */,
-			);
-			path = Achievements;
 			sourceTree = "<group>";
 		};
 		09FAE5E017E2ED2B00E46F76 /* Settings */ = {
@@ -1979,6 +1934,8 @@
 				09FAE6CF17E2F24D00E46F76 /* RCHomeScene.mm */,
 				097919701803A5C90013C6FC /* RCStoreLayer.h */,
 				097919711803A5C90013C6FC /* RCStoreLayer.m */,
+				0978EA371805016800A810FE /* RCAchievementLayer.h */,
+				0978EA381805016800A810FE /* RCAchievementLayer.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2025,6 +1982,8 @@
 				0960678117F2ACB100809632 /* RCPauseLayer.m */,
 				0964484817F3E46B009FD9AC /* RCResultLayer.h */,
 				0964484917F3E46B009FD9AC /* RCResultLayer.m */,
+				0978EA341804FC1000A810FE /* RCEntity.h */,
+				0978EA351804FC1000A810FE /* RCEntity.m */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -2107,15 +2066,9 @@
 				09FAE39817E2BCB500E46F76 /* fps_images-hd.png in Resources */,
 				09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */,
 				0992D3FA17F40AEA001A581F /* restart_button_small.png in Resources */,
-				09FAE39C17E2BCB500E46F76 /* Icon-72.png in Resources */,
-				09FAE39E17E2BCB500E46F76 /* Icon-Small-50.png in Resources */,
 				0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */,
 				0938A66417F2E5E7002237BD /* bomb.mp3 in Resources */,
-				09FAE3A017E2BCB500E46F76 /* Icon-Small.png in Resources */,
-				09FAE3A217E2BCB500E46F76 /* Icon-Small@2x.png in Resources */,
-				09FAE3A417E2BCB500E46F76 /* Icon.png in Resources */,
 				0960677F17F2955900809632 /* restart_button.png in Resources */,
-				09FAE3A617E2BCB500E46F76 /* Icon@2x.png in Resources */,
 				0992D3FE17F43303001A581F /* gold_number.png in Resources */,
 				09FAE3A917E2BCB500E46F76 /* iTunesArtwork in Resources */,
 				097919741803EE050013C6FC /* Images.xcassets in Resources */,
@@ -2164,12 +2117,7 @@
 				09FAE5D017E2EC3D00E46F76 /* GameCenterManager.m in Sources */,
 				09FAE5D117E2EC3D00E46F76 /* GCHelper.m in Sources */,
 				09FAE5D217E2EC3D00E46F76 /* GKMatchmakerViewController+LandscapeOnly.m in Sources */,
-				09FAE5D317E2EC3D00E46F76 /* Achievement.m in Sources */,
-				09FAE5D417E2EC3D00E46F76 /* RCAchievement.m in Sources */,
-				09FAE5D517E2EC3D00E46F76 /* RCAchievementViewController.m in Sources */,
-				09FAE5D617E2EC3D00E46F76 /* RCAchievementCell.m in Sources */,
 				0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */,
-				09FAE5D717E2EC3D00E46F76 /* RCAchievementCellContentView.m in Sources */,
 				09FAE3AE17E2BCB500E46F76 /* CCAction.m in Sources */,
 				09FAE3B117E2BCB500E46F76 /* CCActionCamera.m in Sources */,
 				09FAE3B417E2BCB500E46F76 /* CCActionCatmullRom.m in Sources */,
@@ -2185,6 +2133,7 @@
 				09FAE3D217E2BCB500E46F76 /* CCActionTween.m in Sources */,
 				09FAE3D517E2BCB500E46F76 /* CCAnimation.m in Sources */,
 				0980CB7C17F029390001AD16 /* RCMoneyEntity.mm in Sources */,
+				0978EA391805016800A810FE /* RCAchievementLayer.m in Sources */,
 				09FAE3D817E2BCB500E46F76 /* CCAnimationCache.m in Sources */,
 				09FAE3DB17E2BCB500E46F76 /* CCAtlasNode.m in Sources */,
 				09FAE3DE17E2BCB500E46F76 /* CCCamera.m in Sources */,
@@ -2387,6 +2336,7 @@
 				09FAE6C617E2EE6400E46F76 /* WBAuthorize.m in Sources */,
 				09FAE6C717E2EE6400E46F76 /* WBEngine.m in Sources */,
 				09FAE6C817E2EE6400E46F76 /* WBLogInAlertView.m in Sources */,
+				0978EA361804FC1000A810FE /* RCEntity.m in Sources */,
 				09FAE6C917E2EE6400E46F76 /* WBRequest.m in Sources */,
 				09FAE6CA17E2EE6400E46F76 /* WBSendView.m in Sources */,
 				09FAE6CB17E2EE6400E46F76 /* WBUtil.m in Sources */,

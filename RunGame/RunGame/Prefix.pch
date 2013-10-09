@@ -82,6 +82,17 @@ typedef enum{
     RT_MILK,
 }RECORD_TYPE;
 
+//成就类型
+typedef enum{
+    AT_UNKNOWN = -1,
+    AT_ESCAPE,
+    AT_SHOOTER,
+    AT_MARATHON,
+    AT_CAKE,
+    AT_KUNGFU,
+    AT_MILLIONAIRE,
+}ACHIEVEMENT_TYPE;
+
 //背景滚动速度
 #define SCROLL_SPEED 5.5f
 

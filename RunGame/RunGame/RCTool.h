@@ -55,6 +55,10 @@
 + (int)getRecordByType:(int)type;
 + (void)setRecordByType:(int)type value:(int)value;
 
+#pragma mark - Achievement
++ (BOOL)checkAchievementByType:(int)type;
++ (void)setAchievementByType:(int)type value:(int)value;
+
 #pragma mark - Core Data
 
 + (NSPersistentStoreCoordinator*)getPersistentStoreCoordinator;

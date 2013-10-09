@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "RCPanda.h"
+#import "RCEntity.h"
 
-@interface RCMoneyEntity : CCSprite {
+@interface RCMoneyEntity : RCEntity {
     
 }
 

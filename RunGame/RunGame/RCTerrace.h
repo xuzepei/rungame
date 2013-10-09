@@ -13,6 +13,8 @@
     
 }
 
+@property(assign)CGFloat originalY;
+
 + (id)terrace;
 - (void)move:(CGPoint)offset;
 - (void)beHit;

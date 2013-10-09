@@ -105,7 +105,8 @@
 - (void)updateForTimes:(ccTime)delta
 {
     //向下冲
-    [self down];
+    if([self isWalking])
+        [self down];
     
     //减气力
     if([self isFlying])
@@ -116,6 +117,8 @@
             int milkCount = [RCTool getRecordByType:RT_MILK];
             if(milkCount > 0)
             {
+                [RCTool setAchievementByType:AT_KUNGFU value:-1];
+                
                 milkCount--;
                 [RCTool setRecordByType:RT_MILK value:milkCount];
                 spValue = DEFAULT_SP_VALUE/2.0;
@@ -155,10 +158,19 @@
 - (void)updateDistanceForTimes:(ccTime)delta
 {
     //增加距离
-    if(self.speedUpTime > 0)
-        self.distance += MULTIPLE;
+    if(self.speedUpTime > 0 || [self isFlying])
+    {
+        self.distance += MULTIPLE*2;
+        
+        if([self isFlying])
+        {
+            [RCTool setAchievementByType:AT_KUNGFU value:MULTIPLE*2];
+        }
+    }
     else
         self.distance++;
+    
+    [RCTool setAchievementByType:AT_CAKE value:self.distance];
     
     //记录最大的距离
     int max_distance = [RCTool getRecordByType:RT_DISTANCE];
@@ -494,12 +506,16 @@
     self.speedUpTime += DEFAULT_SPEED_UP_TIME;
     
     [self run];
+    
+    [RCTool setAchievementByType:AT_CAKE value:-1];
 }
 
 - (void)increaseSPValue
 {
     [self playBubbleAnimation];
     self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue+5);
+    
+    [RCTool setAchievementByType:AT_CAKE value:-1];
 }
 
 - (void)decreaseSPValue
@@ -511,13 +527,17 @@
 {
     [self playBubbleAnimation];
     self.money++;
+    
     [RCTool setRecordByType:RT_MONEY value:self.money];
+    [RCTool setAchievementByType:AT_MILLIONAIRE value:1];
 }
 
 - (void)addSpringTime
 {
     [self playBubbleAnimation];
     self.springTime += 10.0f;
+    
+    [RCTool setAchievementByType:AT_CAKE value:-1];
 }
 
 - (void)addBulletCount

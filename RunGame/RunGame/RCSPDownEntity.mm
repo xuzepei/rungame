@@ -55,6 +55,8 @@
     
     if([self checkBeShooted])
     {
+        [RCTool setAchievementByType:AT_SHOOTER value:1];
+        
         [self setVisible:NO];
     }
 }

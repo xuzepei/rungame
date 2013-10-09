@@ -11,10 +11,10 @@
 #import "RCGameScene.h"
 #import "RCSettingsViewController.h"
 #import "RCNavigationController.h"
-#import "RCAchievementViewController.h"
 #import "RCAboutViewController.h"
 #import "RCGameSceneParallaxBackground.h"
 #import "RCStoreLayer.h"
+#import "RCAchievementLayer.h"
 
 
 static RCHomeScene* sharedInstance = nil;
@@ -130,7 +130,7 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedIntroButton:(id)sender
 {
-//    RCAboutViewController* temp = [[RCAboutViewController alloc] initWithNibName:nil bundle:nil];
+//    RCAchievementLayer* temp = [[RCAchievementLayer alloc] initWithNibName:nil bundle:nil];
 //    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
 //    [temp release];
 //    
@@ -139,12 +139,11 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedAchievementButton:(id)sender
 {
-//    RCAchievementViewController* temp = [[RCAchievementViewController alloc] initWithNibName:nil bundle:nil];
-//    [temp updateContent];
-//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-//    [temp release];
-//    
-//    [DIRECTOR pause];
+    [self showAllButton:NO];
+    
+    RCAchievementLayer* layer = [[[RCAchievementLayer alloc] init] autorelease];
+    layer.delegate = self;
+    [self addChild:layer z:100];
 }
 
 - (void)clickedRankButton:(id)sender
@@ -221,6 +220,11 @@ static RCHomeScene* sharedInstance = nil;
 }
 
 - (void)clickedStoreBackButton:(id)sender
+{
+    [self showAllButton:YES];
+}
+
+- (void)clickedAchievementBackButton:(id)sender
 {
     [self showAllButton:YES];
 }

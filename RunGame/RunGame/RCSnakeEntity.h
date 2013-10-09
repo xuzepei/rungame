@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "RCPanda.h"
 #import "RCGameScene.h"
+#import "RCEntity.h"
 
-@interface RCSnakeEntity : CCSprite {
+@interface RCSnakeEntity : RCEntity {
     
 }
 
