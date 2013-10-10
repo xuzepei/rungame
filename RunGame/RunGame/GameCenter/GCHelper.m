@@ -96,70 +96,26 @@
     }
 }
 
-- (BOOL)reportRightKillCount:(int64_t)count
+- (BOOL)reportDistance:(int64_t)distance
 {
-//    if(NO == _userAuthenticated)
-//        return NO;
-//    
-//    if(NO == [RCTool isReachableViaInternet])
-//        return NO;
-//    
-//    BOOL __block b = YES;
-//    GKScore* reporter = [[[GKScore alloc] initWithCategory:LEADERBOARD_RIGHTKILL_ID] autorelease];
-//    reporter.value = count;
-//    [reporter reportScoreWithCompletionHandler: ^(NSError *error)
-//     {
-//         NSLog(@"reportRightKillCount,error:%@",error);
-//         
-//         if(error)
-//             b = NO;
-//     }];
-//    
-//    return b;
-}
+    if(NO == _userAuthenticated)
+        return NO;
+    
+    if(NO == [RCTool isReachableViaInternet])
+        return NO;
 
-- (BOOL)reportWrongKillCount:(int64_t)count
-{
-//    if(NO == _userAuthenticated)
-//        return NO;
-//    
-//    if(NO == [RCTool isReachableViaInternet])
-//        return NO;
-//    
-//    BOOL __block b = YES;
-//    GKScore* reporter = [[[GKScore alloc] initWithCategory:LEADERBOARD_WRONGKILL_ID] autorelease];
-//    reporter.value = count;
-//    [reporter reportScoreWithCompletionHandler: ^(NSError *error)
-//     {
-//         NSLog(@"reportWrongKillCount,error:%@",error);
-//         
-//         if(error)
-//             b = NO;
-//     }];
-//    
-//    return b;
-}
-
-- (BOOL)reportScore:(int64_t)score
-{
-//    if(NO == _userAuthenticated)
-//        return NO;
-//    
-//    if(NO == [RCTool isReachableViaInternet])
-//        return NO;
-//
-//    BOOL __block b = YES;
-//    GKScore* reporter = [[[GKScore alloc] initWithCategory:LEADERBOARD_SCORE_ID] autorelease];
-//    reporter.value = score;
-//    [reporter reportScoreWithCompletionHandler: ^(NSError *error)
-//    {
-//        NSLog(@"reportScore,error:%@",error);
-//        
-//        if(error)
-//            b = NO;
-//    }];
-//    
-//    return b;
+    BOOL __block b = YES;
+    GKScore* reporter = [[[GKScore alloc] initWithCategory:LEADERBOARD_DISTANCE_ID] autorelease];
+    reporter.value = distance;
+    [reporter reportScoreWithCompletionHandler: ^(NSError *error)
+    {
+        NSLog(@"reportScore,error:%@",error);
+        
+        if(error)
+            b = NO;
+    }];
+    
+    return b;
 }
 
 @end

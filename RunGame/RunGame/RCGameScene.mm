@@ -22,6 +22,7 @@
 #import "RCResultLayer.h"
 #import "RCStoreLayer.h"
 #import "RCEntity.h"
+#import "GCHelper.h"
 
 
 #define TERRACE_NUM 6
@@ -341,8 +342,8 @@ static RCGameScene* sharedInstance = nil;
     CGFloat speed1;
     if(self.panda.running)
     {
-        speed0 = _terraceSpeed*MULTIPLE;
-        speed1 = _entitySpeed*MULTIPLE;
+        speed0 = _terraceSpeed + 2;
+        speed1 = _entitySpeed + 2;
     }
     else
     {
@@ -418,6 +419,7 @@ static RCGameScene* sharedInstance = nil;
     CGFloat pandaHeight = self.panda.contentSize.height;
     CGFloat pandaY = [self.panda getBody]->GetPosition().y * PTM_RATIO;
     CGSize winSize = WIN_SIZE;
+
     
     //CCLOG(@"pandaY:%f,limit:%f",pandaY,winSize.height - 40);
     static float flyY = pandaY;
@@ -435,9 +437,18 @@ static RCGameScene* sharedInstance = nil;
     else if(flyY > pandaY)//flyY 大于 pandaY 时，使用flyY
     {
         pandaY = flyY;
-        flyY -= 10;
+        flyY -= 5 * (fabs(flyY)/winSize.height);
     }
     
+    //掉落
+    CGFloat dropHeight = (flyY > pandaY)?flyY:pandaY;
+    if(self.panda.flyTime <= 0 && [self.panda isFlying])
+    {
+        if(dropHeight <= winSize.height)
+            self.panda.downImpulse = -0.4;
+        else
+            self.panda.downImpulse = -0.1 / (fabs(dropHeight)/winSize.height);
+    }
     
     //CCLOG(@"pandaY3:%f",pandaY);
     CGFloat cY = pandaY - pandaHeight - winSize.height/2.0f;
@@ -470,11 +481,11 @@ static RCGameScene* sharedInstance = nil;
     if(willDead && pandaY > 100)
         [RCTool setAchievementByType:AT_ESCAPE value:1];
         
-    if(pandaY <= 0 && pandaY > -self.panda.contentSize.height/2.0)
+    if(pandaY <= 0 && pandaY > -self.panda.contentSize.height)
     {
         willDead = YES;
     }
-    else if(pandaY < -self.panda.contentSize.height/2.0)
+    else if(pandaY < -self.panda.contentSize.height)
     {
         willDead = NO;
         
@@ -536,7 +547,7 @@ static RCGameScene* sharedInstance = nil;
     CGSize winSize = WIN_SIZE;
     
     //创建world
-    b2Vec2 gravity = b2Vec2(0.0f,-30.0f)
+    b2Vec2 gravity = b2Vec2(0.0f,0.0f)
     ;
     _world = new b2World(gravity);
     _world->SetAllowSleeping(true);
@@ -1074,6 +1085,8 @@ static RCGameScene* sharedInstance = nil;
     {
         [RCTool pauseBgSound];
         [DIRECTOR pause];
+        
+        [[GCHelper sharedInstance] reportDistance:[RCTool getRecordByType:RT_DISTANCE]];
         
         RCResultLayer* resultLayer = [[[RCResultLayer alloc] init] autorelease];
         resultLayer.delegate = self;

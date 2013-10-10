@@ -20,6 +20,7 @@
 #define WIN_SIZE [[CCDirector sharedDirector] winSize]
 #define DIRECTOR [CCDirector sharedDirector]
 #define PTM_RATIO 32.0
+#define LEADERBOARD_DISTANCE_ID @"20131010"
 
 //场景类型
 typedef enum

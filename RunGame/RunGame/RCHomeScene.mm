@@ -148,12 +148,7 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedRankButton:(id)sender
 {
-//    RCAchievementViewController* temp = [[RCAchievementViewController alloc] initWithNibName:nil bundle:nil];
-//    [temp updateContent];
-//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-//    [temp release];
-//    
-//    [DIRECTOR pause];
+    [self showLeaderboard];
 }
 
 - (void)clickedShopButton:(id)sender
@@ -185,7 +180,7 @@ static RCHomeScene* sharedInstance = nil;
 	GKLeaderboardViewController* leaderboardController = [[[GKLeaderboardViewController alloc] init] autorelease];
 	if(leaderboardController != NULL)
 	{
-		leaderboardController.category = @"2013090100";
+		leaderboardController.category = LEADERBOARD_DISTANCE_ID;
 		leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
 		leaderboardController.leaderboardDelegate = self;
         [[RCTool getRootNavigationController] presentModalViewController:leaderboardController animated:YES];

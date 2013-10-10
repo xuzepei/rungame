@@ -81,10 +81,10 @@
     menu.position = ccp(30, 30);
     [self addChild: menu z:50];
     
-    menuItem = [CCMenuItemImage itemWithNormalImage:@"upload_button.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedUploadButton:)];
-    menu = [CCMenu menuWithItems:menuItem, nil];
-    menu.position = ccp(winSize.width/2.0 + 20.0, 50);
-    [self addChild: menu z:50];
+//    menuItem = [CCMenuItemImage itemWithNormalImage:@"upload_button.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedUploadButton:)];
+//    menu = [CCMenu menuWithItems:menuItem, nil];
+//    menu.position = ccp(winSize.width/2.0 + 20.0, 50);
+//    [self addChild: menu z:50];
     
     menuItem = [CCMenuItemImage itemWithNormalImage:@"restart_button_small.png" selectedImage:nil disabledImage:nil target:self selector:@selector(clickedRestartButton:)];
     menu = [CCMenu menuWithItems:menuItem, nil];

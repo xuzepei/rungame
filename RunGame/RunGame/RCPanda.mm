@@ -26,9 +26,10 @@
     // Loading the Ship's sprite using a sprite frame name (eg the filename)
 	if ((self = [super initWithSpriteFrameName:@"walk_0.png"]))
 	{
-        self.jumpImpulse = 16.0;
-        self.rollImpulse = 18.0;
-        self.flyImpulse = 20.0;
+        self.jumpImpulse = 12.0;
+        self.rollImpulse = 12.0;
+        self.flyImpulse = 12.0;
+        self.downImpulse = -1.0;
         self.money = [RCTool getRecordByType:RT_MONEY];
         self.bulletCount = [RCTool getRecordByType:RT_BULLET];
         
@@ -100,13 +101,24 @@
 
 - (void)update:(ccTime)delta
 {
+    if(self.flyTime > 0)
+    {
+        self.flyTime--;
+        self.downImpulse = 0.0f;
+        self.state = PST_FLYING;
+    }
+    else if(NO == [self isFlying])
+        self.downImpulse = -1.0f;
+    
+    //向下冲
+    [self down];
 }
 
 - (void)updateForTimes:(ccTime)delta
 {
-    //向下冲
-    if([self isWalking])
-        [self down];
+    
+    //if([self isWalking])
+    
     
     //减气力
     if([self isFlying])
@@ -211,6 +223,8 @@
 - (void)walk
 {
     //[self stopAllActions];
+    self.flyTime = 0.0;
+    
     self.state = PST_WALKING;
     [self run];
     
@@ -236,7 +250,7 @@
         [self roll];
         return;
     }
-    else if(PST_ROLLING == self.state || PST_FLYING == self.state)
+    else if(PST_ROLLING == self.state || PST_FLYING == self.state || PST_FLYDOWN == self.state)
     {
         [self fly];
         return;
@@ -314,6 +328,9 @@
 
     if(self.spValue > 0)
     {
+        CCLOG(@"########");
+        self.flyTime += 10;
+        
         //添加冲力
         b2Vec2 impulse = b2Vec2(0,self.flyImpulse);
         
@@ -328,6 +345,11 @@
 - (BOOL)isFlying
 {
     return (PST_FLYING == self.state);
+}
+
+- (BOOL)isFlyDown
+{
+    return (PST_FLYDOWN == self.state);
 }
 
 #pragma mark - Scoll
@@ -355,10 +377,11 @@
 
 - (void)down
 {
-    if(PST_UNKNOWN == self.state || PST_WALKING == self.state || PST_FLYING == self.state)
+//    if(PST_UNKNOWN == self.state || PST_WALKING == self.state || PST_JUMPING == self.state || PST_ROLLING == self.state || PST_FLYING == self.state)
+    if(PST_JUMPUP != self.state)
     {
         //添加冲力
-        b2Vec2 impulse = b2Vec2(0,-1);
+        b2Vec2 impulse = b2Vec2(0,self.downImpulse);
         b2Body* body = [self getBody];
         if(body)
         {

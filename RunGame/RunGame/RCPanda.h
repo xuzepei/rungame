@@ -19,6 +19,7 @@ typedef enum
     PST_ROLLING,
     PST_FLYING,
     PST_SCROLLING,
+    PST_FLYDOWN,
 }PANDA_STATE;
 
 typedef enum
@@ -48,6 +49,7 @@ typedef enum
 @property(assign)float jumpImpulse;
 @property(assign)float rollImpulse;
 @property(assign)float flyImpulse;
+@property(assign)float downImpulse;
 @property(assign)int jumpCount;
 @property(assign)BOOL running;
 @property(assign)BOOL isFainting;
@@ -58,6 +60,7 @@ typedef enum
 @property(assign)float spValue; //气力值
 @property(assign)int money; //钱
 @property(assign)float springTime; //增加弹力时间
+@property(assign)float flyTime; //飞行时间
 @property(assign)int bulletCount; //子弹数
 @property(assign)int distance; //移动距离
 @property(assign)float faintTime; //晕的时间
@@ -76,6 +79,7 @@ typedef enum
 - (BOOL)isRolling;
 - (void)fly;
 - (BOOL)isFlying;
+- (BOOL)isFlyDown;
 - (void)scroll;
 - (BOOL)isScrolling;
 - (void)down;

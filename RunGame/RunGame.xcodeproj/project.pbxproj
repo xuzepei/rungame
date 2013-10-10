@@ -47,6 +47,7 @@
 		0996F56017E84C5B00F21122 /* bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0996F55F17E84C5B00F21122 /* bg.mp3 */; };
 		0996F56317E85A0200F21122 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0996F56217E85A0200F21122 /* MyContactListener.mm */; };
 		09A4345117E6A797002483C8 /* RCPanda.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09A4345017E6A797002483C8 /* RCPanda.mm */; };
+		09EF27861806860400047CEF /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EF27851806860400047CEF /* GameKit.framework */; };
 		09FAE37E17E2BCB500E46F76 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE37D17E2BCB500E46F76 /* QuartzCore.framework */; };
 		09FAE38017E2BCB500E46F76 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE37F17E2BCB500E46F76 /* OpenGLES.framework */; };
 		09FAE38217E2BCB500E46F76 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE38117E2BCB500E46F76 /* OpenAL.framework */; };
@@ -55,7 +56,6 @@
 		09FAE38817E2BCB500E46F76 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE38717E2BCB500E46F76 /* UIKit.framework */; };
 		09FAE38A17E2BCB500E46F76 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE38917E2BCB500E46F76 /* Foundation.framework */; };
 		09FAE38C17E2BCB500E46F76 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE38B17E2BCB500E46F76 /* CoreGraphics.framework */; };
-		09FAE38E17E2BCB500E46F76 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE38D17E2BCB500E46F76 /* GameKit.framework */; };
 		09FAE39617E2BCB500E46F76 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39517E2BCB500E46F76 /* fps_images.png */; };
 		09FAE39817E2BCB500E46F76 /* fps_images-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39717E2BCB500E46F76 /* fps_images-hd.png */; };
 		09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE39917E2BCB500E46F76 /* fps_images-ipadhd.png */; };
@@ -217,7 +217,6 @@
 		09FAE5B817E2E94E00E46F76 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B317E2E94E00E46F76 /* CFNetwork.framework */; };
 		09FAE5B917E2E94E00E46F76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B417E2E94E00E46F76 /* CoreData.framework */; };
 		09FAE5BA17E2E94E00E46F76 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B517E2E94E00E46F76 /* libz.dylib */; };
-		09FAE5BB17E2E94E00E46F76 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B617E2E94E00E46F76 /* StoreKit.framework */; };
 		09FAE5BC17E2E94E00E46F76 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE5B717E2E94E00E46F76 /* SystemConfiguration.framework */; };
 		09FAE5D017E2EC3D00E46F76 /* GameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C117E2EBE800E46F76 /* GameCenterManager.m */; };
 		09FAE5D117E2EC3D00E46F76 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 09FAE5C317E2EBE800E46F76 /* GCHelper.m */; };
@@ -293,8 +292,6 @@
 		09FAE6DB17E2F76800E46F76 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE6DA17E2F76800E46F76 /* MobileCoreServices.framework */; };
 		09FAE6DD17E2F7BB00E46F76 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE6DC17E2F7BB00E46F76 /* MessageUI.framework */; };
 		09FAE6DF17E2F82100E46F76 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE6DE17E2F82100E46F76 /* Security.framework */; };
-		09FAE6E117E308BE00E46F76 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE6E017E308BD00E46F76 /* Default@2x.png */; };
-		09FAE6E317E308C000E46F76 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE6E217E308C000E46F76 /* Default-568h@2x.png */; };
 		09FAE6E917E30A7500E46F76 /* home_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE6E817E30A7500E46F76 /* home_bg.png */; };
 		09FAE6EB17E30C7D00E46F76 /* start_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 09FAE6EA17E30C7D00E46F76 /* start_button.png */; };
 /* End PBXBuildFile section */
@@ -359,6 +356,7 @@
 		0996F56217E85A0200F21122 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
 		09A4344F17E6A797002483C8 /* RCPanda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPanda.h; sourceTree = "<group>"; };
 		09A4345017E6A797002483C8 /* RCPanda.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCPanda.mm; sourceTree = "<group>"; };
+		09EF27851806860400047CEF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		09FAE37A17E2BCB500E46F76 /* RunGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FAE37D17E2BCB500E46F76 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		09FAE37F17E2BCB500E46F76 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -368,7 +366,6 @@
 		09FAE38717E2BCB500E46F76 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		09FAE38917E2BCB500E46F76 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09FAE38B17E2BCB500E46F76 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		09FAE38D17E2BCB500E46F76 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		09FAE39517E2BCB500E46F76 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
 		09FAE39717E2BCB500E46F76 /* fps_images-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-hd.png"; path = "Resources/fps_images-hd.png"; sourceTree = "<group>"; };
 		09FAE39917E2BCB500E46F76 /* fps_images-ipadhd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fps_images-ipadhd.png"; path = "Resources/fps_images-ipadhd.png"; sourceTree = "<group>"; };
@@ -717,7 +714,6 @@
 		09FAE5B317E2E94E00E46F76 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		09FAE5B417E2E94E00E46F76 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		09FAE5B517E2E94E00E46F76 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		09FAE5B617E2E94E00E46F76 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		09FAE5B717E2E94E00E46F76 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		09FAE5C017E2EBE800E46F76 /* GameCenterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameCenterManager.h; sourceTree = "<group>"; };
 		09FAE5C117E2EBE800E46F76 /* GameCenterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameCenterManager.m; sourceTree = "<group>"; };
@@ -873,8 +869,6 @@
 		09FAE6DA17E2F76800E46F76 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		09FAE6DC17E2F7BB00E46F76 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		09FAE6DE17E2F82100E46F76 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		09FAE6E017E308BD00E46F76 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
-		09FAE6E217E308C000E46F76 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		09FAE6E817E30A7500E46F76 /* home_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_bg.png; sourceTree = "<group>"; };
 		09FAE6EA17E30C7D00E46F76 /* start_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start_button.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -891,7 +885,6 @@
 				09FAE5B817E2E94E00E46F76 /* CFNetwork.framework in Frameworks */,
 				09FAE5B917E2E94E00E46F76 /* CoreData.framework in Frameworks */,
 				09FAE5BA17E2E94E00E46F76 /* libz.dylib in Frameworks */,
-				09FAE5BB17E2E94E00E46F76 /* StoreKit.framework in Frameworks */,
 				09FAE5BC17E2E94E00E46F76 /* SystemConfiguration.framework in Frameworks */,
 				09FAE38417E2BCB500E46F76 /* AudioToolbox.framework in Frameworks */,
 				09FAE38617E2BCB500E46F76 /* AVFoundation.framework in Frameworks */,
@@ -900,7 +893,7 @@
 				09FAE37E17E2BCB500E46F76 /* QuartzCore.framework in Frameworks */,
 				09FAE38817E2BCB500E46F76 /* UIKit.framework in Frameworks */,
 				09FAE38A17E2BCB500E46F76 /* Foundation.framework in Frameworks */,
-				09FAE38E17E2BCB500E46F76 /* GameKit.framework in Frameworks */,
+				09EF27861806860400047CEF /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,13 +920,13 @@
 		09FAE37C17E2BCB500E46F76 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09EF27851806860400047CEF /* GameKit.framework */,
 				09FAE6DE17E2F82100E46F76 /* Security.framework */,
 				09FAE6DC17E2F7BB00E46F76 /* MessageUI.framework */,
 				09FAE6DA17E2F76800E46F76 /* MobileCoreServices.framework */,
 				09FAE5B317E2E94E00E46F76 /* CFNetwork.framework */,
 				09FAE5B417E2E94E00E46F76 /* CoreData.framework */,
 				09FAE5B517E2E94E00E46F76 /* libz.dylib */,
-				09FAE5B617E2E94E00E46F76 /* StoreKit.framework */,
 				09FAE5B717E2E94E00E46F76 /* SystemConfiguration.framework */,
 				09FAE37D17E2BCB500E46F76 /* QuartzCore.framework */,
 				09FAE37F17E2BCB500E46F76 /* OpenGLES.framework */,
@@ -943,7 +936,6 @@
 				09FAE38717E2BCB500E46F76 /* UIKit.framework */,
 				09FAE38917E2BCB500E46F76 /* Foundation.framework */,
 				09FAE38B17E2BCB500E46F76 /* CoreGraphics.framework */,
-				09FAE38D17E2BCB500E46F76 /* GameKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1004,8 +996,6 @@
 				0940B18917E5B9D70079C108 /* game_scene_images.plist */,
 				0940B18A17E5B9D70079C108 /* game_scene_images.png */,
 				0940B18717E597700079C108 /* back_button.png */,
-				09FAE6E217E308C000E46F76 /* Default-568h@2x.png */,
-				09FAE6E017E308BD00E46F76 /* Default@2x.png */,
 				09FAE5A917E2BCB900E46F76 /* blocks.png */,
 				09FAE39517E2BCB500E46F76 /* fps_images.png */,
 				09FAE39717E2BCB500E46F76 /* fps_images-hd.png */,
@@ -2039,6 +2029,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					09FAE37917E2BCB500E46F76 = {
+						DevelopmentTeam = 896XC8CL62;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 09FAE37517E2BCB500E46F76 /* Build configuration list for PBXProject "RunGame" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2076,9 +2079,7 @@
 				09651ECB17E9768400EC4125 /* land.mp3 in Resources */,
 				09FAE5AA17E2BCB900E46F76 /* blocks.png in Resources */,
 				09FAE69E17E2EE6400E46F76 /* README.md in Resources */,
-				09FAE6E117E308BE00E46F76 /* Default@2x.png in Resources */,
 				094B793617F161FD00E3F68A /* pause_button.png in Resources */,
-				09FAE6E317E308C000E46F76 /* Default-568h@2x.png in Resources */,
 				0964484417F3DAC0009FD9AC /* dead.mp3 in Resources */,
 				0938A66217F2E00E002237BD /* bomb_cloud.png in Resources */,
 				09FAE6E917E30A7500E46F76 /* home_bg.png in Resources */,
@@ -2397,6 +2398,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhao Shiyang (Y5KM95T2P9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zhao Shiyang (Y5KM95T2P9)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2409,6 +2412,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "465291EA-65BC-4385-948F-0AF3DA761D24";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"RunGame/libs\"";
 				WRAPPER_EXTENSION = app;
@@ -2421,6 +2425,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chongqing Rumtel Communication Technology Co.,Ltd (896XC8CL62)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chongqing Rumtel Communication Technology Co.,Ltd (896XC8CL62)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RunGame/Prefix.pch;
@@ -2432,6 +2438,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35F11AA9-9E56-4758-8009-52A090B8342F";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"RunGame/libs\"";
 				VALIDATE_PRODUCT = YES;

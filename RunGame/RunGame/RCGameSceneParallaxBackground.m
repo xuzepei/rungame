@@ -23,9 +23,9 @@
         
         CGSize winSize = WIN_SIZE;
 
-#ifndef DEBUG
+//#ifndef DEBUG
         ccColor4B bgColor = {133,232,255,255};
-        CCLayerColor* bgColorLayer = [CCLayerColor layerWithColor:bgColor width:winSize.width height:winSize.height*5];
+        CCLayerColor* bgColorLayer = [CCLayerColor layerWithColor:bgColor width:winSize.width height:winSize.height*50];
         bgColorLayer.anchorPoint = ccp(0.5,0);
         [self addChild:bgColorLayer z:0];
         
@@ -34,7 +34,7 @@
         [self addChild:self.batch];
         
         [self initBgObjects];
-#endif
+//#endif
         
         // Initialize the array that contains the scroll factors for individual stripes.
 		_speedFactors = [[CCArray alloc] initWithCapacity:SPRITE_TYPE];

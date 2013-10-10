@@ -17,8 +17,6 @@
 
 + (GCHelper*)sharedInstance;
 - (void)authenticateLocalUser;
-- (BOOL)reportRightKillCount:(int64_t)count;
-- (BOOL)reportWrongKillCount:(int64_t)count;
-- (BOOL)reportScore:(int64_t)score;
+- (BOOL)reportDistance:(int64_t)distance;
 
 @end
