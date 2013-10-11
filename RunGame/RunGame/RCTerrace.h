@@ -14,6 +14,7 @@
 }
 
 @property(assign)CGFloat originalY;
+@property(assign)BOOL hasEntity;
 
 + (id)terrace;
 - (void)move:(CGPoint)offset;

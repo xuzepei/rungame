@@ -15,7 +15,6 @@
 }
 
 @property(assign)ENTITY_TYPE type;
-@property(assign)RCPanda* panda;
 @property(assign)BOOL isCollided;
 
 + (id)entity:(ENTITY_TYPE)type;

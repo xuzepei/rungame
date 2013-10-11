@@ -29,7 +29,6 @@
 
 - (void)dealloc
 {
-    self.panda = nil;
     [super dealloc];
 }
 

@@ -19,7 +19,6 @@ typedef enum
     PST_ROLLING,
     PST_FLYING,
     PST_SCROLLING,
-    PST_FLYDOWN,
 }PANDA_STATE;
 
 typedef enum
@@ -79,7 +78,6 @@ typedef enum
 - (BOOL)isRolling;
 - (void)fly;
 - (BOOL)isFlying;
-- (BOOL)isFlyDown;
 - (void)scroll;
 - (BOOL)isScrolling;
 - (void)down;

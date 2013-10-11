@@ -28,6 +28,7 @@
 #define TERRACE_NUM 6
 #define TERRACE_INTERVAL 200.0f
 #define TOP_HEIGHT_LIMIT (winSize.height - 40)
+#define ENTITY_MAX_WIDTH 40
 
 static RCGameScene* sharedInstance = nil;
 @implementation RCGameScene
@@ -357,6 +358,7 @@ static RCGameScene* sharedInstance = nil;
 	{
         if(terrace.position.x <  -1*(terrace.contentSize.width/2.0 + TERRACE_INTERVAL))
         {
+            terrace.hasEntity = NO;
             [tempArray addObject:terrace];
         }
         
@@ -702,6 +704,100 @@ static RCGameScene* sharedInstance = nil;
 
 #pragma mark - Add Entity
 
+- (int)randomEntityType
+{
+    int array[] = {0,0,1,1,2,2,3,3,3,3,3,3,4,4,4,4,4,4,4,4,5,5,6,6,7};
+    
+    int size = sizeof(array)/sizeof(int);
+    
+    //随机排序数组
+    for (NSUInteger i = 0; i < size; ++i) {
+        // Select a random element between i and end of array to swap with.
+        int nElements = size - i;
+        int n = (arc4random() % nElements) + i;
+        
+        int temp = array[n];
+        array[n] = array[i];
+        array[i] = temp;
+    }
+    
+    int rand = arc4random()%size;
+    rand = array[rand];
+    return rand;
+}
+
+- (void)addEntities
+{
+    CGSize winSize = WIN_SIZE;
+    CGFloat offset_x = 0.0;
+    CGFloat offset_y = 0.0;
+    
+    RCTerrace* terrace = nil;
+    for(RCTerrace* temp in _terraceArray)
+    {
+        CGPoint position = [temp getPos];
+        if(position.x - terrace.contentSize.width/2.0 > winSize.width && NO == temp.hasEntity)
+        {
+            temp.hasEntity = YES;
+            terrace = temp;
+            offset_x = position.x - terrace.contentSize.width/2.0;
+            break;
+        }
+    }
+
+    
+    if(terrace)
+    {
+        CGPoint position = [terrace getPos];
+        position.y = terrace.originalY;
+        
+        int count = (int)(terrace.contentSize.width / (ENTITY_MAX_WIDTH*1.5));
+        if(1 == count)
+            count = 2;
+        
+        RCEntity* entity = nil;
+        for(int i = 0; i < count/2; i++)
+        {
+            int type = [self randomEntityType];
+            
+            if(ET_SPEEDUP == type)
+                entity = [RCSpeedUpEntity entity:ET_SPEEDUP];
+            else if(ET_SPUP == type)
+                entity = [RCSPUpEntity entity:ET_SPUP];
+            else if(ET_SPDOWN == type)
+                entity = [RCSPDownEntity entity:ET_SPDOWN];
+            else if(ET_BULLET == type)
+                entity = [RCBulletEntity entity:ET_BULLET];
+            else if(ET_MONEY == type)
+                entity = [RCMoneyEntity entity:ET_MONEY];
+            else if(ET_SPRING == type)
+                entity = [RCSpringEntity entity:ET_SPRING];
+            else if(ET_SNAKE == type)
+                entity = [RCSnakeEntity entity:ET_SNAKE];
+            else if(ET_BOMB == type)
+                entity = [RCBombEntity entity:ET_BOMB];
+            
+            if(ET_SNAKE == type)
+            {
+                offset_y = position.y + terrace.contentSize.height/2.0 + entity.contentSize.height/2.0 - 2;
+                offset_x += arc4random()%(int)(terrace.contentSize.width - ENTITY_MAX_WIDTH);
+            }
+            else
+            {
+                offset_y = position.y + terrace.contentSize.height/2.0 + entity.contentSize.width/2.0 + 40 + arc4random()%30;
+                offset_x += ENTITY_MAX_WIDTH*1 + arc4random()%(ENTITY_MAX_WIDTH*2);
+            }
+            
+            entity.position = ccp(offset_x,offset_y);
+            entity.originalY = offset_y;
+            entity.panda = self.panda;
+            [self.parallaxBg addChild:entity z:10];
+            [_entityArray addObject:entity];
+        }
+
+    }
+}
+
 - (void)addEntityByType:(int)type
 {
     CGSize winSize = WIN_SIZE;
@@ -946,6 +1042,8 @@ static RCGameScene* sharedInstance = nil;
 
 - (void)addEntityForTimes:(ccTime)delta
 {
+    [self addEntities];
+    return;
 //    //道具类型
 //    typedef enum{
 //        ET_UNKNOWN = -1,

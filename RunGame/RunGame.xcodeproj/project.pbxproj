@@ -29,7 +29,7 @@
 		0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6017EACC8D00414B71 /* home_scene_images.plist */; };
 		0967BA6317EACC8D00414B71 /* home_scene_images.png in Resources */ = {isa = PBXBuildFile; fileRef = 0967BA6117EACC8D00414B71 /* home_scene_images.png */; };
 		0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */; };
-		0978EA361804FC1000A810FE /* RCEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA351804FC1000A810FE /* RCEntity.m */; };
+		0978EA361804FC1000A810FE /* RCEntity.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA351804FC1000A810FE /* RCEntity.mm */; };
 		0978EA391805016800A810FE /* RCAchievementLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA381805016800A810FE /* RCAchievementLayer.m */; };
 		097919721803A5C90013C6FC /* RCStoreLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 097919711803A5C90013C6FC /* RCStoreLayer.m */; };
 		097919741803EE050013C6FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 097919731803EE050013C6FC /* Images.xcassets */; };
@@ -327,7 +327,7 @@
 		0967BA6717EB4A7100414B71 /* RCBox2dMoveTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCBox2dMoveTo.h; sourceTree = "<group>"; };
 		0967BA6817EB4A7100414B71 /* RCBox2dMoveTo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCBox2dMoveTo.mm; sourceTree = "<group>"; };
 		0978EA341804FC1000A810FE /* RCEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCEntity.h; sourceTree = "<group>"; };
-		0978EA351804FC1000A810FE /* RCEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCEntity.m; sourceTree = "<group>"; };
+		0978EA351804FC1000A810FE /* RCEntity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCEntity.mm; sourceTree = "<group>"; };
 		0978EA371805016800A810FE /* RCAchievementLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAchievementLayer.h; sourceTree = "<group>"; };
 		0978EA381805016800A810FE /* RCAchievementLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAchievementLayer.m; sourceTree = "<group>"; };
 		097919701803A5C90013C6FC /* RCStoreLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCStoreLayer.h; sourceTree = "<group>"; };
@@ -1973,7 +1973,7 @@
 				0964484817F3E46B009FD9AC /* RCResultLayer.h */,
 				0964484917F3E46B009FD9AC /* RCResultLayer.m */,
 				0978EA341804FC1000A810FE /* RCEntity.h */,
-				0978EA351804FC1000A810FE /* RCEntity.m */,
+				0978EA351804FC1000A810FE /* RCEntity.mm */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -2337,7 +2337,7 @@
 				09FAE6C617E2EE6400E46F76 /* WBAuthorize.m in Sources */,
 				09FAE6C717E2EE6400E46F76 /* WBEngine.m in Sources */,
 				09FAE6C817E2EE6400E46F76 /* WBLogInAlertView.m in Sources */,
-				0978EA361804FC1000A810FE /* RCEntity.m in Sources */,
+				0978EA361804FC1000A810FE /* RCEntity.mm in Sources */,
 				09FAE6C917E2EE6400E46F76 /* WBRequest.m in Sources */,
 				09FAE6CA17E2EE6400E46F76 /* WBSendView.m in Sources */,
 				09FAE6CB17E2EE6400E46F76 /* WBUtil.m in Sources */,

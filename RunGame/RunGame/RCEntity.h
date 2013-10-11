@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RCPanda.h"
 
 @interface RCEntity : CCSprite {
     
 }
 
+@property(assign)RCPanda* panda;
 @property(assign)CGFloat originalY;
 
 @end

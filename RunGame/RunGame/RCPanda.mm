@@ -116,11 +116,7 @@
 
 - (void)updateForTimes:(ccTime)delta
 {
-    
-    //if([self isWalking])
-    
-    
-    //减气力
+    //加气力
     if([self isFlying])
     {
         CGFloat spValue = self.spValue - 1;
@@ -133,13 +129,11 @@
                 
                 milkCount--;
                 [RCTool setRecordByType:RT_MILK value:milkCount];
-                spValue = DEFAULT_SP_VALUE/2.0;
+                self.spValue = DEFAULT_SP_VALUE/2.0;
             }
         }
-        else
-            spValue = self.spValue - 0.5;
         
-        self.spValue = MAX(0,spValue);
+        self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue + 0.1);
     }
     else
         self.spValue = MIN(DEFAULT_SP_VALUE,self.spValue + 0.5);
@@ -250,7 +244,7 @@
         [self roll];
         return;
     }
-    else if(PST_ROLLING == self.state || PST_FLYING == self.state || PST_FLYDOWN == self.state)
+    else if(PST_ROLLING == self.state || PST_FLYING == self.state)
     {
         [self fly];
         return;
@@ -325,6 +319,14 @@
         self.state = PST_FLYING;
         [self switchToStateAnimation];
     }
+    
+    //减气力
+    if([self isFlying])
+    {
+        CGFloat spValue = self.spValue - 0.5;
+        self.spValue = MAX(0,spValue);
+    }
+
 
     if(self.spValue > 0)
     {
@@ -345,11 +347,6 @@
 - (BOOL)isFlying
 {
     return (PST_FLYING == self.state);
-}
-
-- (BOOL)isFlyDown
-{
-    return (PST_FLYDOWN == self.state);
 }
 
 #pragma mark - Scoll

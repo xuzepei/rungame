@@ -36,7 +36,6 @@
 
 - (void)dealloc
 {
-    self.panda = nil;
     self.gameScene = nil;
     [super dealloc];
 }
