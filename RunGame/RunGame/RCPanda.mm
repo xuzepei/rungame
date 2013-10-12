@@ -26,9 +26,9 @@
     // Loading the Ship's sprite using a sprite frame name (eg the filename)
 	if ((self = [super initWithSpriteFrameName:@"walk_0.png"]))
 	{
-        self.jumpImpulse = 12.0;
-        self.rollImpulse = 12.0;
-        self.flyImpulse = 12.0;
+        self.jumpImpulse = 15.0;
+        self.rollImpulse = 40.0;
+        self.flyImpulse = 2.0;
         self.downImpulse = -1.0;
         self.money = [RCTool getRecordByType:RT_MONEY];
         self.bulletCount = [RCTool getRecordByType:RT_BULLET];
@@ -39,6 +39,7 @@
         [RCTool preloadEffectSound:MUSIC_ADD];
         [RCTool preloadEffectSound:MUSIC_JUMP];
         [RCTool preloadEffectSound:MUSIC_DEAD];
+        [RCTool preloadEffectSound:MUSIC_FLY];
         
         NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",nil];
         NSString* frameName = [NSString stringWithFormat:@"walk_"];
@@ -77,6 +78,8 @@
         [self schedule:@selector(updateForTimes:) interval:0.5f];
         
         [self schedule:@selector(updateDistanceForTimes:) interval:0.1f];
+        
+        [self schedule:@selector(updateForPlayFlySound:) interval:0.9f];
 	}
 	return self;
 }
@@ -110,8 +113,34 @@
     else if(NO == [self isFlying])
         self.downImpulse = -1.0f;
     
+    
+    
     //向下冲
     [self down];
+    
+    
+    if([self isJumping])
+    {
+        CGFloat y = [self getPos].y;
+        static CGFloat lastHeight = [self getPos].y;
+        if(lastHeight <= y)
+        {
+            self.isJumpUp = YES;
+            self.isJumpDown = NO;
+        }
+        else
+        {
+            self.isJumpUp = NO;
+            self.isJumpDown = YES;
+        }
+        
+        CCLOG(@"y:%f,lastHeight:%f,isJumpUp:%d",y,lastHeight,self.isJumpUp);
+    }
+    else
+    {
+        self.isJumpUp = NO;
+        self.isJumpDown = NO;
+    }
 }
 
 - (void)updateForTimes:(ccTime)delta
@@ -204,6 +233,12 @@
     }
 }
 
+- (void)updateForPlayFlySound:(ccTime)delta
+{
+    if([self isFlying])
+        [RCTool playEffectSound:MUSIC_FLY];
+}
+
 - (BOOL)needCheckCollision
 {
     if(PST_JUMPUP == self.state || PST_WALKING == self.state|| PST_SCROLLING == self.state)
@@ -216,7 +251,6 @@
 
 - (void)walk
 {
-    //[self stopAllActions];
     self.flyTime = 0.0;
     
     self.state = PST_WALKING;
@@ -260,11 +294,25 @@
     [self performSelector:@selector(jumpUp:) withObject:nil afterDelay:0.1];
     
     //添加冲力
-    CGFloat jumpImpulse = self.jumpImpulse;
-    if(self.springTime > 0)
-        jumpImpulse += 5;
-    b2Vec2 impulse = b2Vec2(0,jumpImpulse);
+//    CGFloat jumpImpulse = self.jumpImpulse;
+//    if(self.springTime > 0)
+//        jumpImpulse += 5;
+//    b2Vec2 impulse = b2Vec2(0,jumpImpulse);
+//    b2Body* body = [self getBody];
+    
     b2Body* body = [self getBody];
+    b2Vec2 velocity = body->GetLinearVelocity();
+    
+    float jumpImpulse = 0;
+    if(velocity.y < 0)
+        jumpImpulse = fabs(velocity.y) + self.jumpImpulse;
+    else if(velocity.y < self.jumpImpulse)
+        jumpImpulse = self.jumpImpulse - velocity.y;
+    
+    if(self.springTime > 0)
+        jumpImpulse += 2;
+    
+    b2Vec2 impulse = b2Vec2(0,jumpImpulse);
     if(body)
     {
         body->ApplyLinearImpulse(impulse, body->GetPosition());
@@ -293,8 +341,18 @@
     [self switchToStateAnimation];
     
     //添加冲力
-    b2Vec2 impulse = b2Vec2(0,self.rollImpulse);
     b2Body* body = [self getBody];
+    b2Vec2 velocity = body->GetLinearVelocity();
+    
+    float rollImpulse = 0;
+    if(velocity.y < 0)
+        rollImpulse = fabs(velocity.y) + self.rollImpulse * MIN(WIN_SIZE.height - [self getPos].y,WIN_SIZE.height)/WIN_SIZE.height;
+    else
+        rollImpulse = 4.0;
+    
+    b2Vec2 impulse = b2Vec2(0,rollImpulse);
+    //CCLOG(@"velocity:%f,%f",velocity.x,velocity.y);
+    
     if(body)
     {
         body->ApplyLinearImpulse(impulse, body->GetPosition());
@@ -330,13 +388,20 @@
 
     if(self.spValue > 0)
     {
-        CCLOG(@"########");
         self.flyTime += 10;
         
         //添加冲力
-        b2Vec2 impulse = b2Vec2(0,self.flyImpulse);
-        
         b2Body* body = [self getBody];
+        b2Vec2 velocity = body->GetLinearVelocity();
+        
+        float flyImpulse = 0;
+        if(velocity.y < 0)
+            flyImpulse = fabs(velocity.y) + 4;
+        else
+            flyImpulse = self.flyImpulse;
+        
+        b2Vec2 impulse = b2Vec2(0,flyImpulse);
+        //CCLOG(@"velocity:%f,%f",velocity.x,velocity.y);
         if(body)
         {
             body->ApplyLinearImpulse(impulse, body->GetPosition());
@@ -555,7 +620,7 @@
 - (void)addSpringTime
 {
     [self playBubbleAnimation];
-    self.springTime += 10.0f;
+    //self.springTime += 10.0f;
     
     [RCTool setAchievementByType:AT_CAKE value:-1];
 }

@@ -117,6 +117,7 @@ typedef enum{
 #define MUSIC_JUMP @"jump.mp3"
 #define MUSIC_BOMB @"bomb.mp3"
 #define MUSIC_DEAD @"dead.mp3"
+#define MUSIC_FLY @"fly.mp3"
 
 //定义通知
 #define RUNNING_NOTIFICATION @"RUNNING_NOTIFICATION"

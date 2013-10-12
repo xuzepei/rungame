@@ -46,7 +46,9 @@
 		0992D3FE17F43303001A581F /* gold_number.png in Resources */ = {isa = PBXBuildFile; fileRef = 0992D3FD17F43303001A581F /* gold_number.png */; };
 		0996F56017E84C5B00F21122 /* bg.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0996F55F17E84C5B00F21122 /* bg.mp3 */; };
 		0996F56317E85A0200F21122 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0996F56217E85A0200F21122 /* MyContactListener.mm */; };
+		09A411D918092A5400D99EBE /* touch.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09A411D818092A5400D99EBE /* touch.plist */; };
 		09A4345117E6A797002483C8 /* RCPanda.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09A4345017E6A797002483C8 /* RCPanda.mm */; };
+		09B0027B1807D6C800FF6AA5 /* fly.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 09B0027A1807D6C800FF6AA5 /* fly.mp3 */; };
 		09EF27861806860400047CEF /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EF27851806860400047CEF /* GameKit.framework */; };
 		09FAE37E17E2BCB500E46F76 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE37D17E2BCB500E46F76 /* QuartzCore.framework */; };
 		09FAE38017E2BCB500E46F76 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09FAE37F17E2BCB500E46F76 /* OpenGLES.framework */; };
@@ -354,8 +356,10 @@
 		0996F55F17E84C5B00F21122 /* bg.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bg.mp3; sourceTree = "<group>"; };
 		0996F56117E85A0200F21122 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
 		0996F56217E85A0200F21122 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
+		09A411D818092A5400D99EBE /* touch.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = touch.plist; path = Resources/images/touch.plist; sourceTree = "<group>"; };
 		09A4344F17E6A797002483C8 /* RCPanda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCPanda.h; sourceTree = "<group>"; };
 		09A4345017E6A797002483C8 /* RCPanda.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCPanda.mm; sourceTree = "<group>"; };
+		09B0027A1807D6C800FF6AA5 /* fly.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fly.mp3; sourceTree = "<group>"; };
 		09EF27851806860400047CEF /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		09FAE37A17E2BCB500E46F76 /* RunGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RunGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FAE37D17E2BCB500E46F76 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -982,6 +986,7 @@
 		09FAE39017E2BCB500E46F76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				09A411D818092A5400D99EBE /* touch.plist */,
 				0992D3FD17F43303001A581F /* gold_number.png */,
 				0992D3F717F40AEA001A581F /* restart_button_small.png */,
 				0992D3F817F40AEA001A581F /* shop_button.png */,
@@ -1981,6 +1986,7 @@
 		09FAE6E417E30A0D00E46F76 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				09B0027A1807D6C800FF6AA5 /* fly.mp3 */,
 				0964484317F3DAC0009FD9AC /* dead.mp3 */,
 				0938A66317F2E5E7002237BD /* bomb.mp3 */,
 				0938A65F17F2D49D002237BD /* jump.mp3 */,
@@ -2065,6 +2071,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09B0027B1807D6C800FF6AA5 /* fly.mp3 in Resources */,
 				09FAE39617E2BCB500E46F76 /* fps_images.png in Resources */,
 				09FAE39817E2BCB500E46F76 /* fps_images-hd.png in Resources */,
 				09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */,
@@ -2072,6 +2079,7 @@
 				0967BA6217EACC8D00414B71 /* home_scene_images.plist in Resources */,
 				0938A66417F2E5E7002237BD /* bomb.mp3 in Resources */,
 				0960677F17F2955900809632 /* restart_button.png in Resources */,
+				09A411D918092A5400D99EBE /* touch.plist in Resources */,
 				0992D3FE17F43303001A581F /* gold_number.png in Resources */,
 				09FAE3A917E2BCB500E46F76 /* iTunesArtwork in Resources */,
 				097919741803EE050013C6FC /* Images.xcassets in Resources */,

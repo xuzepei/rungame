@@ -53,6 +53,8 @@ typedef enum
 @property(assign)BOOL running;
 @property(assign)BOOL isFainting;
 @property(assign)BOOL isDeaded;
+@property(assign)BOOL isJumpUp;
+@property(assign)BOOL isJumpDown;
 
 @property(assign)int speedUpCount; //加速次数
 @property(assign)float speedUpTime; //加速时间

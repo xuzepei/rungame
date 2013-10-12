@@ -96,6 +96,11 @@
 {
     CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
     
+//    CCParticleSystem* system = [CCParticleSystemQuad particleWithFile:@"touch.plist"];
+//    system.position = touchLocation;
+//    system.autoRemoveOnFinish = YES;
+//	[self addChild:system z:1 tag:1];
+    
 //    CGSize winSize = WIN_SIZE;
 //    CGRect buttonRect0 = CGRectMake(winSize.width/2.0 - 188, 170, 132, 40);
 //    CGRect buttonRect1 = CGRectMake(winSize.width/2.0 - 188, 123, 132, 40);

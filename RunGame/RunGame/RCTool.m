@@ -322,6 +322,8 @@
     if(0 == [soundName length])
         return;
     
+    [[SimpleAudioEngine sharedEngine] setEffectsVolume:[RCTool getEffectVolume]];
+    
     [[SimpleAudioEngine sharedEngine] playEffect:soundName];
 }
 
@@ -329,6 +331,8 @@
 {
     if(0 == [soundName length])
         return;
+    
+    [[SimpleAudioEngine sharedEngine] setBackgroundMusicVolume:[RCTool getBKVolume]];
     
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:soundName loop:YES];
 }
